@@ -83,8 +83,8 @@ const MENU = {
     "Ketchup": ["12 oz bottle"],
     "Mustard":  ["12 oz bottle"],
     "Mayonnaise": ["12 oz bottle"],
-  	"Cocktail": ["12 oz bottle"]
-  	"Soy": {
+  	"Cocktail": ["12 oz bottle"],
+  	"Soy": ["12 oz bottle"],
   	"Oyster":  ["12 oz bottle"],
   	"Hot":  ["12 oz bottle"],
   	"Worchestershire":  ["12 oz bottle"]},
@@ -97,7 +97,7 @@ const MENU = {
     "Potato Chips": ["Frito Lays","Ruffles"],
     "Corn Chips": ["Frito Lays","Doritos","Tortilla"],
     "Cookies":  ["Chocolate Chip","Fudge Graham","Oatmeal","Cream Filled"],
-    "Crackers": ["Cheese","Peanut Butter"]
+    "Crackers": ["Cheese","Peanut Butter"],
     "Popcorn":  ["White","Caramel"],
     "Ice Cream": ["Vanilla","Chocolate","Strawberry","Butter Pecan","Cookies & Cream"],
   	"Candy Bars": ["Snickers","Twix","Milky Way","3 Musketeers"]}
