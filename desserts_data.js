@@ -1713,11 +1713,10 @@ const desserts_data = [
           "3 tbsp cornstarch",
           "¼ tsp salt",
           "2½ cups (600 ml) whole milk",
-          "2 large egg yolks, beaten",
           "1 tbsp unsalted butter",
           "2 tsp vanilla extract"
         ],
-        "prep": "Whisk sugar, cornstarch, and salt with cold milk in a saucepan until smooth. Cook over medium heat stirring constantly until bubbly. Temper a little of the hot mixture into beaten egg yolks. Pour tempered yolks back into pot and cook 2 more minutes until creamy. Add butter and vanilla. Pour into dishes and press plastic wrap on surface. Chill until set."}
+        "prep": "Whisk sugar, cornstarch, and salt with cold milk in a saucepan until smooth. Cook over medium heat stirring constantly until mixture comes to a boil and thickens. Continue cooking for 1–2 minutes while stirring until smooth and creamy. Remove from heat and add butter and vanilla. Pour into dishes and press plastic wrap on surface. Chill until set."}
     ]
   }
  
