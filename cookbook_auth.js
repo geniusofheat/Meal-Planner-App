@@ -238,11 +238,12 @@ document.getElementById('create-account-btn').addEventListener('click', () => {
 
 window.handle_google_sign_in = async function() {
   try {
-    await signInWithPopup(auth, google_provider);
+    const { signInWithRedirect, getRedirectResult } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js");
+    await signInWithRedirect(auth, google_provider);
   } catch (e) {
     const err_el = document.getElementById('auth_error');
     if (err_el) {
-      err_el.textContent = 'Google sign in failed. Please try again.';
+      err_el.textContent = e.message;
       err_el.style.display = 'block';
     }
   }
