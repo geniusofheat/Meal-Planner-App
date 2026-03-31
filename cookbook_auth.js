@@ -216,7 +216,7 @@ window.close_paywall_modal = function() {
   if (modal) modal.style.display = 'none';
 };
 
-// ──  This part added by jetson
+// ──  This part added by jetson 
 // ── Sign Out & Nav Buttons ───────
 document.getElementById('sign-out-btn').addEventListener('click', async () => {
   try {
