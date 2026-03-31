@@ -1,6 +1,6 @@
 // ================================================================
 //  cookbook_auth.js — Cookbook Paywall & Auth System
-//  Add this script to cookbook_menu.html
+//  Add this script to cookbook_menu.html and index.html
 // ================================================================
 
 import { auth, db, onAuthStateChanged } from './firebase_config.js';
@@ -17,11 +17,12 @@ import {
 
 // ── State ──────────────────────────────────────────────────────
 const google_provider = new GoogleAuthProvider();
-let current_user     = null;
-let cookbook_unlocked = false;
-let preview_used     = false;
+google_provider.setCustomParameters({ prompt: 'select_account' });
 
-// ── Jetson changed this section to operate nav buttons ───────────────────────────
+let current_user      = null;
+let cookbook_unlocked = false;
+let preview_used      = false;
+
 // ── On page load — check auth state ───────────────────────────
 onAuthStateChanged(auth, async (user) => {
   const navEmail   = document.getElementById('nav-user-email');
@@ -33,38 +34,21 @@ onAuthStateChanged(auth, async (user) => {
     current_user = user;
     await check_paid_status(user.uid);
 
-    // Update nav for signed-in state
-    if (navEmail) navEmail.textContent = `Welcome, ${user.email}`;
-    if (signInBtn) signInBtn.style.display = 'none';
-    if (createBtn) createBtn.style.display = 'none';
-    if (signOutBtn) signOutBtn.style.display = 'inline-block';
+    if (navEmail)  navEmail.textContent       = `Welcome, ${user.email}`;
+    if (signInBtn) signInBtn.style.display    = 'none';
+    if (createBtn) createBtn.style.display    = 'none';
+    if (signOutBtn) signOutBtn.style.display  = 'inline-block';
   } else {
-    current_user = null;
+    current_user      = null;
     cookbook_unlocked = false;
 
-    // Update nav for signed-out state
-    if (navEmail) navEmail.textContent = 'Welcome, Guest';
-    if (signInBtn) signInBtn.style.display = 'inline-block';
-    if (createBtn) createBtn.style.display = 'inline-block';
-    if (signOutBtn) signOutBtn.style.display = 'none';
+    if (navEmail)  navEmail.textContent       = 'Welcome, Guest';
+    if (signInBtn) signInBtn.style.display    = 'inline-block';
+    if (createBtn) createBtn.style.display    = 'inline-block';
+    if (signOutBtn) signOutBtn.style.display  = 'none';
   }
 });
-// ── Handle Google redirect result on page load ─────────────────
-import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js").then(({ getRedirectResult }) => {
-  getRedirectResult(auth).then(async (result) => {
-    if (result && result.user) {
-      const user = result.user;
-      const snap = await getDoc(doc(db, 'users', user.uid));
-      if (!snap.exists()) {
-        await setDoc(doc(db, 'users', user.uid), {
-          email: user.email,
-          paid: false,
-          created: new Date().toISOString()
-        });
-      }
-    }
-  }).catch((e) => console.error('Redirect result error:', e));
-});
+
 // ── Check Firestore for paid status ───────────────────────────
 async function check_paid_status(uid) {
   try {
@@ -89,16 +73,18 @@ function show_auth_wall() {
     wall.innerHTML = `
       <div style="background:rgba(4,10,30,0.98);border:1px solid rgba(200,169,110,0.3);border-radius:14px;padding:28px;width:100%;max-width:360px;box-sizing:border-box;">
         <h2 style="font-family:'Playfair Display',serif;color:#c8a96e;font-size:22px;margin:0 0 6px 0;text-align:center;">Cookbook</h2>
-        <div style="display:flex;align-items:center;gap:8px;margin:14px 0;">
-  <div style="flex:1;height:1px;background:rgba(200,169,110,0.2);"></div>
-  <span style="font-family:'Space Mono',monospace;font-size:9px;color:rgba(200,169,110,0.4);">OR</span>
-  <div style="flex:1;height:1px;background:rgba(200,169,110,0.2);"></div>
-</div>
-<button onclick="handle_google_sign_in()"
-  style="width:100%;padding:13px;background:transparent;border:1px solid rgba(200,169,110,0.3);border-radius:8px;color:#e8dcc8;font-family:'Space Mono',monospace;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
-  🔵 Sign In with Google
-</button>
-        <p style="font-family:'Space Mono',monospace;font-size:10px;color:rgba(200,169,110,0.6);letter-spacing:2px;text-align:center;margin:0 0 24px 0;">SIGN IN TO CONTINUE</p>
+        <p style="font-family:'Space Mono',monospace;font-size:10px;color:rgba(200,169,110,0.6);letter-spacing:2px;text-align:center;margin:0 0 20px 0;">SIGN IN TO CONTINUE</p>
+
+        <button onclick="handle_google_sign_in()"
+          style="width:100%;padding:13px;background:transparent;border:1px solid rgba(200,169,110,0.3);border-radius:8px;color:#e8dcc8;font-family:'Space Mono',monospace;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:16px;">
+          🔵 Sign In with Google
+        </button>
+
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+          <div style="flex:1;height:1px;background:rgba(200,169,110,0.2);"></div>
+          <span style="font-family:'Space Mono',monospace;font-size:9px;color:rgba(200,169,110,0.4);">OR</span>
+          <div style="flex:1;height:1px;background:rgba(200,169,110,0.2);"></div>
+        </div>
 
         <div id="auth_error" style="display:none;background:rgba(255,80,80,0.1);border:1px solid rgba(255,80,80,0.3);border-radius:8px;padding:10px;margin-bottom:16px;font-family:'Space Mono',monospace;font-size:10px;color:#ff8080;text-align:center;"></div>
 
@@ -133,7 +119,29 @@ function hide_auth_wall() {
   if (wall) wall.style.display = 'none';
 }
 
-// ── Sign in ────────────────────────────────────────────────────
+// ── Google sign in ─────────────────────────────────────────────
+window.handle_google_sign_in = async function() {
+  try {
+    const result = await signInWithPopup(auth, google_provider);
+    const user   = result.user;
+    const snap   = await getDoc(doc(db, 'users', user.uid));
+    if (!snap.exists()) {
+      await setDoc(doc(db, 'users', user.uid), {
+        email:   user.email,
+        paid:    false,
+        created: new Date().toISOString()
+      });
+    }
+  } catch (e) {
+    const err_el = document.getElementById('auth_error');
+    if (err_el) {
+      err_el.textContent   = e.message;
+      err_el.style.display = 'block';
+    }
+  }
+};
+
+// ── Email sign in ──────────────────────────────────────────────
 window.handle_sign_in = async function() {
   const email    = document.getElementById('auth_email').value.trim();
   const password = document.getElementById('auth_password').value;
@@ -142,7 +150,7 @@ window.handle_sign_in = async function() {
   try {
     await signInWithEmailAndPassword(auth, email, password);
   } catch (e) {
-    err_el.textContent  = 'Incorrect email or password.';
+    err_el.textContent   = 'Incorrect email or password.';
     err_el.style.display = 'block';
   }
 };
@@ -154,39 +162,39 @@ window.handle_sign_up = async function() {
   const err_el   = document.getElementById('auth_error');
   err_el.style.display = 'none';
   if (password.length < 6) {
-    err_el.textContent  = 'Password must be at least 6 characters.';
+    err_el.textContent   = 'Password must be at least 6 characters.';
     err_el.style.display = 'block';
     return;
   }
   try {
     const cred = await createUserWithEmailAndPassword(auth, email, password);
-    await setDoc(doc(db, 'users', cred.user.uid), { email: email, paid: false, created: new Date().toISOString() });
+    await setDoc(doc(db, 'users', cred.user.uid), {
+      email:   email,
+      paid:    false,
+      created: new Date().toISOString()
+    });
   } catch (e) {
-    err_el.textContent  = e.message || 'Could not create account.';
+    err_el.textContent   = e.message || 'Could not create account.';
     err_el.style.display = 'block';
   }
 };
 
 // ── Recipe paywall check ───────────────────────────────────────
-// Call this INSTEAD of open_recipe_modal when a recipe title is tapped
 window.check_and_open_recipe = function(recipe, icon, cat_name) {
   if (cookbook_unlocked) {
     open_recipe_modal(recipe, icon, cat_name);
     return;
   }
-
   if (!preview_used) {
     preview_used = true;
     open_recipe_modal(recipe, icon, cat_name);
-    // Show a subtle banner inside the modal after a short delay
     setTimeout(show_preview_banner, 600);
     return;
   }
-
   show_paywall_modal();
 };
 
-// ── Preview banner (shown after first free recipe) ─────────────
+// ── Preview banner ─────────────────────────────────────────────
 function show_preview_banner() {
   const body = document.getElementById('recipe_modal_body');
   if (!body) return;
@@ -203,7 +211,7 @@ function show_preview_banner() {
   body.appendChild(banner);
 }
 
-// ── Paywall modal ────────────────────
+// ── Paywall modal ──────────────────────────────────────────────
 window.show_paywall_modal = function() {
   let modal = document.getElementById('paywall_modal');
   if (!modal) {
@@ -233,34 +241,19 @@ window.close_paywall_modal = function() {
   if (modal) modal.style.display = 'none';
 };
 
-// ──  This part added by jetson 
-// ── Sign Out & Nav Buttons ───────
+// ── Nav buttons ────────────────────────────────────────────────
 document.getElementById('sign-out-btn').addEventListener('click', async () => {
   try {
     await signOut(auth);
   } catch (e) {
-    console.error("Sign out failed:", e);
+    console.error('Sign out failed:', e);
   }
 });
 
-// Hook nav buttons to existing auth wall
 document.getElementById('sign-in-btn').addEventListener('click', () => {
   show_auth_wall();
 });
+
 document.getElementById('create-account-btn').addEventListener('click', () => {
   show_auth_wall();
 });
-// ── End Sign Out & Nav Buttons
-
-window.handle_google_sign_in = async function() {
-  try {
-    const { signInWithRedirect, getRedirectResult } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js");
-    await signInWithRedirect(auth, google_provider);
-  } catch (e) {
-    const err_el = document.getElementById('auth_error');
-    if (err_el) {
-      err_el.textContent = e.message;
-      err_el.style.display = 'block';
-    }
-  }
-};
