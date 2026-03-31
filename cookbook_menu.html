@@ -45,7 +45,7 @@
 <!-- ── Beverages ── -->
 <div class="card">
 <div class="card-header">
-<div class="card-title">Beverages :</div>
+<div class="card-title">🍷 Beverages :</div>
 <p class="card-desc">Smoothies, Coffees..</p>
 <div class="gold-rule"></div>
 </div>
@@ -59,35 +59,35 @@
 <!-- ── Beans And Legumes ── -->
 <div class="card">
 <div class="card-header">
-<div class="card-title">Beans & Legumes :</div>
+<div class="card-title">🫘 Beans & Legumes :</div>
 <p class="card-desc">Red Beans, Green Beans, Black Beans, Lima Beans, Pinto Beans.</p>
 <div class="gold-rule"></div>
 </div>
 <div class="card-body">
 <div class="tip-box">Click below to browse all beans and legumes recipes.</div>
-<button class="btn-blue" style="width:100%;" onclick="toggleCategory('beans')">View Recipes</button>
-<ul class="category-list" id="beans"></ul>
+<button class="btn-blue" style="width:100%;" onclick="toggleCategory('beans_and_legumes')">View Recipes</button>
+<ul class="category-list" id="beans_and_legumes"></ul>
 </div>
 </div>
 
 <!-- ── Candy ── -->
 <div class="card">
 <div class="card-header">
-<div class="card-title">Breads & Grains : :</div>
+<div class="card-title">🍞 Breads & Grains : :</div>
 <p class="card-desc">White Bread, Wheat Bread, Garlic Bread..</p>
 <div class="gold-rule"></div>
 </div>
 <div class="card-body">
 <div class="tip-box">Click below to browse all bread recipes.</div>
-<button class="btn-blue" style="width:100%;" onclick="toggleCategory('breads')">View Recipes</button>
-<ul class="category-list" id="breads"></ul>
+<button class="btn-blue" style="width:100%;" onclick="toggleCategory('breads_and_grains')">View Recipes</button>
+<ul class="category-list" id="breads_and_grains"></ul>
 </div>
 </div>
 
 <!-- ── Candy ── -->
 <div class="card">
 <div class="card-header">
-<div class="card-title">Candy :</div>
+<div class="card-title">🍬 Candy :</div>
 <p class="card-desc">Lemon Drops, Red Hots, Candy Apples.</p>
 <div class="gold-rule"></div>
 </div>
@@ -112,7 +112,7 @@
 </div>
 </div>
 
-<!-- ── Dips_Sauces__and_Gravies── -->
+<!-- ── Dips_And_Sauces── -->
 <div class="card">
 <div class="card-header">
 <div class="card-title">🥗 Dips,Sauces, & Gravies :</div>
@@ -121,8 +121,8 @@
 </div>
 <div class="card-body">
 <div class="tip-box">Click below to browse all dips, sauces, & gravy recipes.</div>
-<button class="btn-blue" style="width:100%;" onclick="toggleCategory('dips')">View Recipes</button>
-<ul class="category-list" id="dips"></ul>
+<button class="btn-blue" style="width:100%;" onclick="toggleCategory('dips_and_sauces')">View Recipes</button>
+<ul class="category-list" id="dips_and_sauces"></ul>
 </div>
 </div>
 
@@ -181,23 +181,22 @@
 </div>
 <div class="card-body">
 <div class="tip-box">Click below to browse all soup and stew recipes.</div>
-<button class="btn-blue" style="width:100%;" onclick="toggleCategory('soups')">View Recipes</button>
-<ul class="category-list" id="soups"></ul>
+<button class="btn-blue" style="width:100%;" onclick="toggleCategory('soups_and_stews')">View Recipes</button>
+<ul class="category-list" id="soups_and_stews"></ul>
 </div>
 </div>
 
-
-<!-- ── SIDE DISHES ── -->
+<!-- ── VEGETABLE DISHES ── -->
 <div class="card">
 <div class="card-header">
-<div class="card-title">🥔 Side Dishes</div>
+<div class="card-title">🥔 Vegetable Dishes</div>
 <p class="card-desc">Roasted vegetables, potatoes, rice, casseroles, and perfect accompaniments.</p>
 <div class="gold-rule"></div>
 </div>
 <div class="card-body">
-<div class="tip-box">Click below to browse all side dish recipes.</div>
-<button class="btn-blue" style="width:100%;" onclick="toggleCategory('sides')">View Recipes</button>
-<ul class="category-list" id="sides"></ul>
+<div class="tip-box">Click below to browse all vegetable dish recipes.</div>
+<button class="btn-blue" style="width:100%;" onclick="toggleCategory('vegetables')">View Recipes</button>
+<ul class="category-list" id="vegetables"></ul>
 </div>
 </div>
 
@@ -234,12 +233,15 @@
 <script src="breads_and_grains_data.js"></script>
 <script src="candy_data.js"></script>
 <script src="desserts_data.js"></script>
-<script src="dips_data.js"></script>
+<script src="dips_and_sauces_data.js"></script>
 <script src="meats_data.js"></script>
 <script src="pastas_data.js"></script>
 <script src="salads_data.js"></script>
 <script src="soups_and_stews_data.js"></script>
-<script src="cookbook_data.js"></script>
+<script src="vegetables_data.js"></script>
+<script src="cookbook_menu_data.js"></script>
+<script type="module" src="firebase_config.js"></script>
+<script type="module" src="cookbook_auth.js"></script>
 
 </body>
 </html>

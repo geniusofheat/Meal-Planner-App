@@ -187,24 +187,7 @@
 
   </div><!-- closes-section-wrapper -->
 </div><!-- closes-app -->
-  
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
-  const firebaseConfig = {
-    apiKey: "AIzaSyBod_5fi96oZ-Q7y9i8Iy-DL-uCkpMaACQ",
-    authDomain: "meal-planner-app-16afd.firebaseapp.com",
-    projectId: "meal-planner-app-16afd",
-    storageBucket: "meal-planner-app-16afd.firebasestorage.app",
-    messagingSenderId: "718879895385",
-    appId: "1:718879895385:web:fce2ebf3ea17014830e648"
-  };
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  onAuthStateChanged(auth, user => {
-    if (!user) window.location.href = 'login.html';
-  });
-</script>
+
 <script src="index.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('service_worker.js');}</script>
 

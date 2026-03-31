@@ -1,4 +1,4 @@
-const beans_data = [
+const beans_and_legumes_data = [
 
   {
     id: "blackBeans",
@@ -196,7 +196,7 @@ function toggleCategory(catId) {
     return;
   }
 
-  var cat = beans_data.find(function(c) { return c.id === catId; });
+  var cat = beans_and_legumes_data.find(function(c) { return c.id === catId; });
   if (!cat) return;
 
   if (ul.innerHTML === '') {

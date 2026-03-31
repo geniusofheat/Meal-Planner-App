@@ -1,10 +1,10 @@
-const soups_data = [
+const soups_and_stews_data = [
 
   {
     id: 'classicSoups',
     icon:"🍲", name:"Classic Soups",
     desc:"Timeless soup data from chicken noodle and tomato to French onion and minestrone.",
-    data:[
+    recipes:[
       {name:"Chicken Noodle Soup",servings:"6 servings",ingredients:["1 whole chicken or 4 bone-in chicken thighs","3 carrots, sliced","3 celery stalks, sliced","1 onion, diced","4 garlic cloves, minced","2 cups egg noodles","8 cups (1.9 L) chicken broth","Fresh thyme and bay leaf","2 tbsp olive oil","Salt and pepper","Fresh parsley to garnish"],prep:"Heat olive oil in a large pot over medium heat. Cook onion, carrots, and celery until softened — about 8 minutes. Add garlic and cook 1 minute. Add broth, chicken, thyme, and bay leaf. Bring to a boil. Reduce heat and simmer 35–40 minutes until chicken is cooked through. Remove chicken and shred meat discarding bones and skin. Return meat to pot. Add egg noodles and cook 8 minutes until tender. Remove bay leaf. Season with salt and pepper. Garnish with fresh parsley."},
       {name:"French Onion Soup",servings:"4 servings",ingredients:["6 large yellow onions, very thinly sliced","4 tbsp unsalted butter","1 tbsp olive oil","1 tsp sugar","½ cup (120 ml) dry white wine","6 cups (1.4 L) beef broth","2 sprigs fresh thyme","1 bay leaf","Salt and pepper","4 thick slices crusty bread","2 cups Gruyère cheese, shredded"],prep:"Melt butter and olive oil in a large heavy pot over medium heat. Add onions and sugar. Cook stirring occasionally for 45–60 minutes until deeply caramelized and dark golden — do not rush this step. Add wine and cook until evaporated. Add broth, thyme, and bay leaf. Simmer 20 minutes. Season with salt and pepper. Ladle into oven-safe bowls. Top with a slice of crusty bread and generous mound of Gruyère. Broil until cheese is melted, bubbly, and golden."},
       {name:"Tomato Soup",servings:"4 servings",ingredients:["2 cans (28 oz each) crushed San Marzano tomatoes","1 onion, diced","4 garlic cloves, minced","2 cups (480 ml) vegetable or chicken broth","½ cup (120 ml) heavy cream","3 tbsp unsalted butter","1 tsp sugar","Fresh basil leaves","Salt and pepper"],prep:"Melt butter in a large pot over medium heat. Cook onion until softened. Add garlic and cook 1 minute. Add tomatoes, broth, sugar, and basil. Simmer 20 minutes. Blend until completely smooth using an immersion blender. Stir in heavy cream. Return to gentle heat. Season with salt and pepper. Serve with grilled cheese for dipping."},
@@ -27,7 +27,7 @@ const soups_data = [
     id: 'heartyStews',
     icon:"🥘", name:"Hearty Stews",
     desc:"Rich and warming beef, lamb, pork, and vegetable stews slow cooked to perfection.",
-    data:[
+    recipes:[
       {name:"Classic Beef Stew",servings:"6 servings",ingredients:["1 kg (2 lbs) beef chuck, cut into 2-inch cubes","3 potatoes, cubed","3 carrots, sliced","2 celery stalks, sliced","1 onion, diced","4 garlic cloves, minced","2 cups (480 ml) beef broth","1 cup (240 ml) red wine","2 tbsp tomato paste","2 tbsp flour","2 tbsp olive oil","Fresh thyme and bay leaf","Salt and pepper"],prep:"Season beef with salt and pepper and dust with flour. Brown in olive oil in a large pot over high heat in batches — do not crowd. Remove beef. Cook onion, carrots, and celery until softened. Add garlic and tomato paste and cook 1 minute. Add wine and reduce. Add broth, herbs, and beef. Bring to a boil. Reduce heat, cover, and simmer 1.5 hours. Add potatoes and cook 30 more minutes until everything is tender and sauce has thickened."},
       {name:"Beef Bourguignon",servings:"6 servings",ingredients:["1 kg (2 lbs) beef chuck, cubed","200 g (7 oz) bacon lardons","500 g (1 lb) cremini mushrooms, quartered","2 cups pearl onions","3 cups (720 ml) Burgundy red wine","2 cups (480 ml) beef broth","2 tbsp tomato paste","4 garlic cloves","Bouquet garni — thyme, bay leaf, parsley","3 tbsp butter","Salt and pepper"],prep:"Marinate beef in wine overnight if possible. Pat dry. Brown bacon in a Dutch oven. Remove. Brown beef in batches in bacon fat. Remove. Cook pearl onions and mushrooms until golden. Add garlic and tomato paste. Add wine, broth, beef, and bacon. Add bouquet garni. Braise covered at 325°F (165°C) for 2.5 hours until beef is very tender. Uncover and cook 30 more minutes until sauce thickens."},
       {name:"Irish Lamb Stew",servings:"6 servings",ingredients:["1 kg (2 lbs) lamb shoulder, cut into chunks","6 potatoes, quartered","3 carrots, sliced","1 onion, diced","3 cups (720 ml) chicken or vegetable broth","Fresh thyme and parsley","Salt and pepper","2 tbsp butter"],prep:"Layer lamb, potatoes, carrots, and onion in a large heavy pot. Season generously with salt and pepper. Add thyme and broth. Bring to a boil. Reduce heat, cover, and simmer 1.5–2 hours until lamb is very tender and potatoes are falling apart thickening the broth. Stir in butter at the end. Garnish with fresh parsley. This traditional Irish stew is purposely simple — the quality of the lamb carries it."},
@@ -50,7 +50,7 @@ const soups_data = [
     id: 'chilisGumbos',
     icon:"🌶️", name:"Chilis & Gumbos",
     desc:"Bold beef chili, white chicken chili, vegetarian chili, and classic Louisiana gumbo.",
-    data:[
+    recipes:[
       {name:"Classic Beef Chili",servings:"6 servings",ingredients:["700 g (1.5 lbs) ground beef","2 cans (14 oz each) kidney beans, drained","1 can (28 oz) crushed tomatoes","1 onion, diced","4 garlic cloves, minced","1 red bell pepper, diced","2 tbsp chili powder","1 tsp cumin","1 tsp smoked paprika","½ tsp cayenne","Salt and pepper","2 tbsp olive oil","Toppings: sour cream, cheese, green onions, jalapeños"],prep:"Heat olive oil in a large pot. Brown ground beef and drain excess fat. Add onion, pepper, and garlic and cook until softened. Add all spices and cook 1 minute. Add crushed tomatoes and beans. Bring to a boil. Reduce heat and simmer uncovered 30–40 minutes until thick. Season with salt and pepper. Serve with toppings."},
       {name:"White Chicken Chili",servings:"6 servings",ingredients:["700 g (1.5 lbs) boneless chicken thighs or breasts","2 cans (14 oz each) white beans — cannellini or Great Northern","2 cans (4 oz each) diced green chilies","1 onion, diced","4 garlic cloves, minced","4 cups (960 ml) chicken broth","1 tsp cumin","1 tsp oregano","½ tsp cayenne","1 cup sour cream","Salt and pepper","Toppings: avocado, cheese, cilantro, lime"],prep:"Cook chicken in broth until cooked through. Remove and shred. Cook onion and garlic in a little oil until soft. Add spices. Add broth, green chilies, and white beans. Simmer 15 minutes. Mash some beans against the side of the pot to thicken. Return chicken. Stir in sour cream off the heat. Season with salt and pepper. Serve with toppings."},
       {name:"Vegetarian Chili",servings:"6 servings",ingredients:["1 can (14 oz) black beans, drained","1 can (14 oz) kidney beans, drained","1 can (14 oz) chickpeas, drained","1 can (28 oz) crushed tomatoes","1 onion, diced","2 bell peppers, diced","4 garlic cloves","1 zucchini, diced","1 cup corn kernels","2 tbsp chili powder","1 tsp cumin","1 tsp smoked paprika","2 tbsp olive oil","Salt and pepper"],prep:"Heat olive oil in a large pot. Cook onion and bell peppers until soft. Add garlic and all spices and cook 1 minute. Add tomatoes, all beans, zucchini, and corn. Simmer 30 minutes until thick and flavors meld. Season with salt and pepper. Serve with your favorite toppings."},
@@ -73,7 +73,7 @@ const soups_data = [
     id: 'vegetarianSoups',
     icon:"🌿", name:"Vegetarian Soups",
     desc:"Plant-based soups packed with vegetables, legumes, and bold flavors.",
-    data:[
+    recipes:[
       {name:"Roasted Tomato Soup",servings:"4 servings",ingredients:["1 kg (2 lbs) ripe tomatoes, halved","1 onion, quartered","6 garlic cloves","3 tbsp olive oil","1 tsp sugar","2 cups (480 ml) vegetable broth","½ cup heavy cream or coconut cream","Fresh basil","Salt and pepper"],prep:"Preheat oven to 400°F (200°C). Place tomatoes, onion, and garlic on a baking sheet. Drizzle with olive oil, sugar, salt, and pepper. Roast 35–40 minutes until tomatoes are caramelized and slightly charred. Transfer to a blender with broth and blend until smooth. Pour into a pot and stir in cream. Heat through. Season with salt and pepper. The roasting gives a depth of flavor that canned tomatoes cannot match."},
       {name:"Carrot Ginger Soup",servings:"4 servings",ingredients:["700 g (1.5 lbs) carrots, peeled and chopped","1 onion, diced","3 garlic cloves, minced","2-inch piece fresh ginger, grated","4 cups (960 ml) vegetable broth","1 can (14 oz) coconut milk","2 tbsp olive oil","1 tsp cumin","Juice of 1 orange","Salt and pepper","Toasted coconut and cilantro to garnish"],prep:"Heat olive oil in a large pot. Cook onion until soft. Add garlic, ginger, and cumin and cook 1 minute. Add carrots and broth. Bring to a boil. Simmer 20–25 minutes until carrots are completely tender. Blend until very smooth. Add coconut milk and orange juice. Season with salt and pepper. Garnish with toasted coconut and fresh cilantro."},
       {name:"Mushroom Soup",servings:"4 servings",ingredients:["700 g (1.5 lbs) mixed mushrooms — cremini, shiitake, porcini","1 onion, diced","4 garlic cloves, minced","4 cups (960 ml) vegetable or chicken broth","1 cup (240 ml) heavy cream","4 tbsp butter","½ cup dry sherry or white wine","Fresh thyme","Salt, pepper, and nutmeg","Sour cream and chives to garnish"],prep:"Melt butter in a large pot over high heat. Add mushrooms in batches and cook without stirring until golden — about 5 minutes. Add onion and garlic and cook until soft. Add sherry and cook until evaporated. Add broth and thyme. Simmer 15 minutes. Blend three-quarters of the soup until smooth. Return to pot. Add cream. Season with salt, pepper, and nutmeg. Garnish with sour cream and chives."},
@@ -96,7 +96,7 @@ const soups_data = [
     id: 'asianSoups',
     icon:"🍜", name:"Asian Soups",
     desc:"Ramen, pho, tom yum, wonton soup, and noodle soups from across Asia.",
-    data:[
+    recipes:[
       {name:"Tonkotsu Ramen",servings:"4 servings",ingredients:["4 portions ramen noodles","Broth: 1 kg pork trotters and bones, 8 cups water, 4 garlic cloves, 1-inch ginger, 2 green onions, 1 tsp white pepper — simmer 8–12 hours","Tare: 4 tbsp soy sauce, 2 tbsp mirin, 1 tbsp sake","Toppings: chashu pork, soft boiled eggs, nori, bamboo shoots, green onions, sesame seeds, black garlic oil"],prep:"Make broth by simmering pork bones in water at a vigorous boil for 10–12 hours until milky white and rich. Strain. Season with tare. Cook ramen noodles. Divide noodles into bowls. Pour hot broth over. Top with sliced chashu pork, halved soft boiled eggs, nori, bamboo shoots, and green onions. Drizzle black garlic oil over."},
       {name:"Beef Pho",servings:"4 servings",ingredients:["400 g (14 oz) flat rice noodles","Broth: 2 lbs beef bones, 1 onion charred, 3-inch ginger charred, 3 star anise, 5 cloves, 1 cinnamon stick, 1 tbsp fish sauce, 2 tsp sugar, salt, 8 cups water","Toppings: thinly sliced raw beef, bean sprouts, fresh basil, lime wedges, jalapeños, hoisin, sriracha"],prep:"Char onion and ginger directly over a flame or under the broiler. Simmer beef bones in water 30 minutes then drain and rinse. Return to pot with charred vegetables, star anise, cloves, and cinnamon. Simmer 3 hours. Strain. Season with fish sauce, sugar, and salt. Cook noodles and divide into bowls. Ladle piping hot broth over noodles — this cooks the raw beef. Serve with toppings on the side."},
       {name:"Tom Yum Soup",servings:"4 servings",ingredients:["500 g (1 lb) large shrimp, peeled","4 cups (960 ml) chicken or seafood broth","3 stalks lemongrass, bruised and cut","4 kaffir lime leaves, torn","3 Thai chilies, bruised","3 slices galangal or ginger","3 tbsp fish sauce","3 tbsp lime juice","1 tbsp sugar","200 g (7 oz) mushrooms, halved","Cherry tomatoes","Fresh cilantro"],prep:"Bring broth to a boil with lemongrass, lime leaves, chilies, and galangal. Simmer 5 minutes to infuse. Add mushrooms and tomatoes. Add shrimp and cook until pink — about 3 minutes. Season with fish sauce, lime juice, and sugar. Adjust to taste — should be sour, spicy, and aromatic. Garnish with cilantro. Remove lemongrass before serving."},
@@ -119,7 +119,7 @@ const soups_data = [
     id: 'slowCookerSoups',
     icon:"🫕", name:"Slow Cooker Soups & Stews",
     desc:"Set it and forget it slow cooker soups and stews full of deep slow-cooked flavor.",
-    data:[
+    recipes:[
       {name:"Slow Cooker Beef Stew",servings:"6 servings",ingredients:["1 kg (2 lbs) beef chuck, cubed","3 potatoes, cubed","3 carrots, sliced","2 celery stalks, sliced","1 onion, diced","4 garlic cloves","1 cup (240 ml) red wine","2 cups (480 ml) beef broth","2 tbsp tomato paste","2 tbsp flour","Fresh thyme and bay leaf","Salt and pepper"],prep:"Dust beef with flour, salt, and pepper. Brown in a skillet over high heat then transfer to slow cooker. Add all vegetables, wine, broth, tomato paste, thyme, and bay leaf. Cook on low 8 hours or high 4–5 hours until beef is very tender. Remove bay leaf. Adjust seasoning. The long slow cook develops incredibly deep flavor."},
       {name:"Slow Cooker Chicken Noodle Soup",servings:"6 servings",ingredients:["1 kg (2 lbs) bone-in chicken thighs","3 carrots, sliced","3 celery stalks, sliced","1 onion, diced","4 garlic cloves","6 cups (1.4 L) chicken broth","Fresh thyme and bay leaf","2 cups egg noodles","Salt and pepper","Fresh parsley"],prep:"Place chicken, vegetables, broth, and herbs in slow cooker. Cook on low 7–8 hours. Remove chicken and shred. Return meat to slow cooker. Turn to high. Add egg noodles and cook 20–30 minutes until tender. Remove bay leaf. Season with salt and pepper. Garnish with parsley."},
       {name:"Slow Cooker Pulled Pork Stew",servings:"6 servings",ingredients:["1 kg (2 lbs) pork shoulder","1 onion, sliced","4 garlic cloves","1 can (28 oz) crushed tomatoes","1 cup (240 ml) chicken broth","2 tbsp Worcestershire sauce","1 tbsp brown sugar","1 tsp smoked paprika","1 tsp cumin","Salt and pepper"],prep:"Season pork generously with salt and paprika. Place onion in bottom of slow cooker. Set pork on top. Mix tomatoes, broth, Worcestershire, brown sugar, and cumin. Pour over pork. Cook on low 8–10 hours. Shred pork with two forks. Stir everything together. Season with salt and pepper."},
@@ -142,7 +142,7 @@ const soups_data = [
     id: 'brothsBisques',
     icon:"🫙", name:"Broths & Bisques",
     desc:"Rich homemade broths, bone broths, creamy bisques, and elegant restaurant-style soups.",
-    data:[
+    recipes:[
       {name:"Homemade Chicken Broth",servings:"8 cups",ingredients:["1 whole chicken carcass or 1 kg chicken bones","2 carrots, roughly chopped","2 celery stalks, roughly chopped","1 onion, quartered","4 garlic cloves","1 leek, roughly chopped","Fresh thyme, parsley stems, and bay leaf","1 tbsp peppercorns","12 cups (2.8 L) cold water","1 tbsp apple cider vinegar"],prep:"Place chicken bones in a large pot. Cover with cold water and bring to a boil. Drain and rinse bones — this removes impurities and results in a clearer broth. Return bones to clean pot with all vegetables, herbs, peppercorns, and vinegar. Cover with 12 cups cold water. Bring to a bare simmer. Cook uncovered 3–4 hours skimming foam occasionally. Strain through a fine sieve. Cool and refrigerate. Skim solidified fat from surface before using."},
       {name:"Bone Broth",servings:"8 cups",ingredients:["1.5 kg (3 lbs) beef or chicken bones","2 tbsp apple cider vinegar","3 carrots, roughly chopped","3 celery stalks","1 onion, quartered","4 garlic cloves","Fresh thyme, parsley, and bay leaf","1 tbsp peppercorns","12 cups (2.8 L) cold water"],prep:"Roast bones at 450°F for 30 minutes until browned — this adds color and flavor. Transfer to a large stockpot. Add vinegar and water. Let sit 30 minutes before heating — the acid draws minerals from the bones. Bring to a boil. Skim foam. Add vegetables and herbs. Reduce to the lowest possible simmer. Cook 12–24 hours for beef, 6–8 hours for chicken. Strain and season lightly with salt."},
       {name:"Lobster Bisque",servings:"4 servings",ingredients:["2 lobster tails, cooked, meat removed, shells reserved","1 onion, diced","2 celery stalks, diced","2 carrots, diced","4 garlic cloves","3 tbsp tomato paste","½ cup (120 ml) brandy or cognac","3 cups (720 ml) seafood broth","1 cup (240 ml) heavy cream","4 tbsp butter","Fresh tarragon","Salt, pepper, and cayenne"],prep:"Make stock by simmering lobster shells with vegetables and broth 30 minutes. Strain. Melt butter in a pot. Cook onion, celery, and carrot until soft. Add garlic and tomato paste and cook 2 minutes. Add brandy and cook until evaporated. Add lobster stock and simmer 15 minutes. Blend until smooth. Strain through a fine sieve. Add cream and simmer 5 minutes. Season with salt, pepper, and cayenne. Add lobster meat and heat gently."},
@@ -165,7 +165,7 @@ const soups_data = [
     id: 'internationalSoups',
     icon:"🌍", name:"International Soups",
     desc:"Soups and stews from around the world — from Italian ribollita to Indian dal.",
-    data:[
+    recipes:[
       {name:"Italian Ribollita",servings:"6 servings",ingredients:["2 cans (14 oz each) cannellini beans","1 onion, diced","2 carrots, diced","2 celery stalks, diced","4 garlic cloves","2 cups cavolo nero, chopped","1 can (14 oz) diced tomatoes","6 cups (1.4 L) vegetable broth","4 thick slices day-old bread","3 tbsp olive oil","Parmesan rind","Salt, pepper, and red pepper flakes"],prep:"Cook onion, carrots, and celery in olive oil until soft. Add garlic. Add tomatoes, broth, beans, cavolo nero, and Parmesan rind. Simmer 30 minutes. Tear bread into chunks and stir in. Simmer 15 minutes until bread breaks down and thickens the soup. Season well. Even better reheated the next day."},
       {name:"French Pistou Soup",servings:"6 servings",ingredients:["1 can (14 oz) cannellini beans","1 can (14 oz) diced tomatoes","2 zucchini, diced","2 carrots, diced","2 celery stalks, diced","1 onion, diced","1 cup green beans, cut","1 cup small pasta","6 cups (1.4 L) vegetable broth","Pistou: 2 cups basil, ½ cup Parmesan, ½ cup olive oil, 4 garlic cloves"],prep:"Cook all vegetables in broth until tender — about 20 minutes. Add pasta and beans and cook until pasta is tender. Season with salt and pepper. Make pistou by blending basil, Parmesan, olive oil, and garlic until smooth. Ladle soup into bowls and add a generous spoonful of pistou. The pistou is stirred in at the table — do not cook it in the soup."},
       {name:"Spanish Gazpacho",servings:"4 servings",ingredients:["6 ripe tomatoes","1 English cucumber, peeled","1 red bell pepper","½ red onion","3 garlic cloves","3 tbsp sherry vinegar","½ cup (120 ml) extra virgin olive oil","1 slice stale bread soaked in water","Salt and pepper","Ice water to adjust","Diced vegetables and olive oil to garnish"],prep:"Blend tomatoes, cucumber, pepper, onion, garlic, and soaked bread until smooth. With blender running add olive oil in a stream. Add sherry vinegar, salt, and pepper. Strain through a sieve for silky texture. Add ice water to thin if needed. Refrigerate minimum 2 hours. Serve ice cold garnished with finely diced vegetables and olive oil."},
@@ -186,78 +186,38 @@ const soups_data = [
 
 ];
 
+
+
 // ================================================================
-//  TOGGLE CATEGORY
+//  TOGGLE CATEGORY — shows/hides recipe list under a card
 // ================================================================
 function toggleCategory(catId) {
   var ul = document.getElementById(catId);
   if (!ul) return;
-  if (ul.style.display === 'block') { ul.style.display = 'none'; return; }
-  var cat = soups_data.find(function(c) { return c.id === catId; });
+
+  if (ul.style.display === 'block') {
+    ul.style.display = 'none';
+    return;
+  }
+
+  var cat = soups_and_stews_data.find(function(c) { return c.id === catId; });
   if (!cat) return;
+
   if (ul.innerHTML === '') {
-    cat.data.forEach(function(data) {
+    cat.recipes.forEach(function(recipe, idx) {
       var li = document.createElement('li');
       li.className = 'browser-item';
-      li.innerHTML = '<span class="browser-item-name">' + data.name + '</span><span class="browser-item-arrow">›</span>';
-      li.addEventListener('click', function() { opendataModal(data, catId); });
+      li.innerHTML =
+        '<span class="browser-item-name">' + recipe.name + '</span>' +
+        '<span class="browser-item-arrow">›</span>';
+      li.addEventListener('click', function() {
+        open_recipe_modal(recipe, catId);
+      });
       ul.appendChild(li);
     });
   }
+
   ul.style.display = 'block';
 }
 
-// ================================================================
-//  data MODAL
-// ================================================================
-function opendataModal(data, catId) {
-  var modal = document.getElementById('dataModal');
-  var title = document.getElementById('dataModalTitle');
-  var body  = document.getElementById('dataModalBody');
-  title.textContent = data.name;
-  body.innerHTML = buildDetailHTML(data, catId);
-  modal.style.display = 'flex';
-}
-function closedataModal() {
-  document.getElementById('dataModal').style.display = 'none';
-}
 
-// ================================================================
-//  BUILD DETAIL HTML
-// ================================================================
-function buildDetailHTML(data, catId) {
-  var ingredientItems = data.ingredients.map(function(ing) { return '<li>' + ing + '</li>'; }).join('');
-  return '' +
-    '<div class="sub-heading">Servings</div>' +
-    '<p class="toc-text">' + data.servings + '</p>' +
-    '<div class="sub-heading">Ingredients</div>' +
-    '<ul class="data-ingredients">' + ingredientItems + '</ul>' +
-    '<div class="sub-heading">Preparation</div>' +
-    '<p class="data-prep">' + data.prep + '</p>' +
-    '<div class="data-actions">' +
-      '<button class="btn-gold" onclick="saveToFavorites(\'' + data.name.replace(/'/g, "\\'") + '\', \'' + catId + '\')">♡ Save to Favorites</button>' +
-    '</div>';
-}
-
-// ================================================================
-//  SAVE TO FAVORITES
-// ================================================================
-function saveToFavorites(dataName, catId) {
-  var cat = soups_data.find(function(c) { return c.id === catId; });
-  if (!cat) return;
-  var data = cat.data.find(function(r) { return r.name === dataName; });
-  if (!data) return;
-  try {
-    var favs = JSON.parse(localStorage.getItem('mealplanner_favorites') || '[]');
-    var exists = favs.find(function(f) { return f.name === dataName; });
-    if (!exists) {
-      favs.push({ name: data.name, catName: cat.name, ingredients: data.ingredients, prep: data.prep });
-      localStorage.setItem('mealplanner_favorites', JSON.stringify(favs));
-      alert('"' + dataName + '" saved to favorites!');
-    } else {
-      alert('"' + dataName + '" is already in your favorites.');
-    }
-  } catch(e) {
-    alert('"' + dataName + '" saved!');
-  }
-}

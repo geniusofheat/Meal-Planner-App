@@ -593,6 +593,10 @@
       }
     ]
   },
+  
+    // ===========================
+  // FRUIT JUICE DRINKS
+  // ===========================
   {
     "id": "juices",
     "icon": "🍹",
@@ -788,6 +792,59 @@
       }
     ]
   },
+  
+    // ===========================
+  // 🍸 COCKTAILS
+  // ===========================
+  {
+    id: 'cocktails',
+    icon: '🍸', name: 'Cocktails',
+    desc: 'Classic shaken and stirred cocktails from the bar.',
+    recipes: [
+      {id: 'ck1', name: 'Classic Martini', servings: '1 serving', ingredients: ['2½ oz gin or vodka', '½ oz dry vermouth', 'Ice', 'Lemon twist or green olive to garnish'], prep: 'Fill a mixing glass with ice. Add gin or vodka and vermouth. Stir with a bar spoon for 30 seconds until well chilled — do not shake a martini or it will become cloudy. Strain into a chilled martini glass. Garnish with a lemon twist or olive. For a drier martini reduce the vermouth. For a dirty martini add a splash of olive brine.'},
+      {id: 'ck2', name: 'Old Fashioned', servings: '1 serving', ingredients: ['2 oz bourbon or rye whiskey', '1 sugar cube or 1 tsp simple syrup', '2 dashes Angostura bitters', 'Large ice cube', 'Orange peel and cherry to garnish'], prep: 'Place sugar cube in a rocks glass and saturate with bitters. Muddle until dissolved. Add a large ice cube. Pour whiskey over. Stir gently 10–15 seconds. Express orange peel over the glass by holding it peel-side down and giving it a firm twist to release the oils. Run peel around the rim and drop in. Add a cherry to garnish.'},
+      {id: 'ck3', name: 'Negroni', servings: '1 serving', ingredients: ['1 oz gin', '1 oz sweet vermouth', '1 oz Campari', 'Large ice cube', 'Orange slice or peel to garnish'], prep: 'Fill a rocks glass with a large ice cube. Pour gin, sweet vermouth, and Campari directly into the glass. Stir gently with a bar spoon for 20 seconds. Garnish with an orange slice or expressed orange peel. The Negroni is perfectly balanced — equal parts of each ingredient is essential. Do not adjust the ratios or you lose the balance.'},
+      {id: 'ck4', name: 'Whiskey Sour', servings: '1 serving', ingredients: ['2 oz bourbon', '¾ oz fresh lemon juice', '¾ oz simple syrup', '1 egg white (optional but recommended)', 'Ice', 'Cherry and orange slice to garnish'], prep: 'If using egg white, add all ingredients to a shaker without ice and dry shake vigorously 15 seconds to emulsify. Then add ice and shake again hard for 15 seconds. If not using egg white, just add all ingredients to a shaker with ice and shake well. Strain into a rocks glass over fresh ice. Garnish with a cherry and orange slice. The egg white creates a silky texture and beautiful foam.'},
+      {id: 'ck5', name: 'Manhattan', servings: '1 serving', ingredients: ['2 oz rye or bourbon whiskey', '1 oz sweet vermouth', '2 dashes Angostura bitters', 'Ice', 'Maraschino cherry to garnish'], prep: 'Fill a mixing glass with ice. Add whiskey, sweet vermouth, and bitters. Stir with a bar spoon for 30 seconds until well chilled. Strain into a chilled coupe or martini glass. Garnish with a maraschino cherry. A Manhattan is always stirred never shaken — shaking dilutes it too much and makes it cloudy.'}
+    ]
+  },
+
+  // ===========================
+  // 🍹 MARGARITAS
+  // ===========================
+  {
+    id: 'margaritas',
+    icon: '🍹', name: 'Margaritas',
+    desc: 'Classic and flavored margaritas — shaken, frozen, and on the rocks.',
+    recipes: [
+      {id: 'mg1', name: 'Classic Margarita', servings: '1 serving', ingredients: ['2 oz blanco tequila', '1 oz Cointreau or triple sec', '¾ oz fresh lime juice', 'Salt for the rim', 'Ice', 'Lime wheel to garnish'], prep: 'Rub a lime wedge around the rim of a rocks glass. Dip rim in salt and set aside. Fill a cocktail shaker with ice. Add tequila, Cointreau, and fresh lime juice. Shake hard for 15 seconds until very cold. Fill glass with fresh ice. Strain margarita over ice. Garnish with a lime wheel. Always use fresh lime juice — bottled juice makes a noticeably inferior margarita.'},
+      {id: 'mg2', name: 'Strawberry Margarita', servings: '1 serving', ingredients: ['2 oz blanco tequila', '1 oz triple sec', '¾ oz fresh lime juice', '4 fresh strawberries or 1 oz strawberry puree', '1 tsp sugar', 'Ice', 'Salt rim optional', 'Strawberry to garnish'], prep: 'Muddle fresh strawberries with sugar in a shaker until broken down. Add tequila, triple sec, and lime juice. Fill with ice and shake vigorously 15 seconds. Strain over fresh ice in a salted or unsalted glass. Garnish with a fresh strawberry. For a frozen version blend all ingredients with 1 cup of ice instead of shaking.'},
+      {id: 'mg3', name: 'Frozen Margarita', servings: '2 servings', ingredients: ['3 oz blanco tequila', '1½ oz triple sec', '1½ oz fresh lime juice', '1 tbsp sugar', '2 cups ice', 'Salt for rims', 'Lime wheels to garnish'], prep: 'Salt the rims of two glasses and set aside. Add tequila, triple sec, lime juice, sugar, and ice to a blender. Blend on high until completely smooth. The mixture should be thick enough to mound slightly. Pour into salted glasses. Garnish with lime wheels. If too thin add more ice and blend again. If too thick add a splash of water.'},
+      {id: 'mg4', name: 'Spicy Jalapeño Margarita', servings: '1 serving', ingredients: ['2 oz blanco tequila', '1 oz triple sec', '¾ oz fresh lime juice', '2–3 fresh jalapeño slices', 'Salt or Tajin for rim', 'Ice', 'Jalapeño slice and lime to garnish'], prep: 'Muddle jalapeño slices in the bottom of a shaker — 2 slices for mild, 3 for hot. Add tequila, triple sec, and lime juice. Fill with ice and shake hard 15 seconds. Double strain through a fine mesh strainer into a Tajin or salt rimmed glass over fresh ice. Garnish with a jalapeño slice and lime wheel. Double straining removes jalapeño seeds and pulp for a cleaner drink.'},
+      {id: 'mg5', name: 'Mango Margarita', servings: '1 serving', ingredients: ['2 oz blanco tequila', '1 oz triple sec', '½ oz fresh lime juice', '2 oz fresh mango puree or juice', 'Tajin for rim', 'Ice', 'Mango slice and lime to garnish'], prep: 'Rim a glass with Tajin by rubbing lime around the edge and dipping in Tajin. Fill shaker with ice. Add tequila, triple sec, lime juice, and mango puree. Shake vigorously 15 seconds. Strain over fresh ice in rimmed glass. Garnish with a mango slice and lime wheel. For best results use fresh ripe mango blended smooth rather than bottled mango juice.'}
+    ]
+  },
+
+  // ===========================
+  // 🥂 MIXED DRINKS
+  // ===========================
+  {
+    id: 'mixed-drinks',
+    icon: '🥂', name: 'Mixed Drinks',
+    desc: 'Easy and crowd-pleasing mixed drinks and highballs for any occasion.',
+    recipes: [
+      {id: 'md1', name: 'Moscow Mule', servings: '1 serving', ingredients: ['2 oz vodka', '½ oz fresh lime juice', '4 oz ginger beer', 'Ice', 'Lime wedge and fresh mint to garnish'], prep: 'Fill a copper mug or rocks glass with ice. Pour vodka over ice. Add fresh lime juice. Top with ginger beer — pour gently to preserve the fizz. Give it one gentle stir. Garnish with a lime wedge and a sprig of fresh mint. Use a good quality spicy ginger beer for the best flavor. The copper mug keeps the drink colder longer.'},
+      {id: 'md2', name: 'Gin and Tonic', servings: '1 serving', ingredients: ['2 oz gin', '4 oz tonic water', 'Ice', 'Lime wedge', 'Optional: cucumber slice, rosemary sprig'], prep: 'Fill a tall glass or wine glass with ice. Pour gin over ice. Top with tonic water — pour slowly down the side of the glass to preserve carbonation. Squeeze a lime wedge over and drop in. Garnish with cucumber or rosemary if desired. The quality of the tonic water matters as much as the gin — use a premium tonic for a noticeably better drink.'},
+      {id: 'md3', name: 'Dark and Stormy', servings: '1 serving', ingredients: ['2 oz dark rum', '4 oz ginger beer', '½ oz fresh lime juice', 'Ice', 'Lime wedge to garnish'], prep: 'Fill a tall glass with ice. Pour ginger beer over ice. Squeeze lime juice in. Slowly pour dark rum over the back of a spoon so it floats on top of the ginger beer — this layered presentation is the signature of a Dark and Stormy. Garnish with a lime wedge. Goslings Black Seal rum is the traditional choice. Stir before drinking.'},
+      {id: 'md4', name: 'Paloma', servings: '1 serving', ingredients: ['2 oz blanco tequila', '½ oz fresh lime juice', '4 oz fresh grapefruit juice or grapefruit soda', 'Pinch of salt', 'Tajin or salt for rim', 'Ice', 'Grapefruit slice to garnish'], prep: 'Rim a tall glass with Tajin or salt. Fill with ice. Pour tequila and lime juice over ice. Add a pinch of salt. Top with fresh grapefruit juice or grapefruit soda. Stir gently. Garnish with a grapefruit slice. The Paloma is Mexico\'s most popular cocktail — arguably more beloved there than the margarita. Fresh grapefruit juice is far superior to grapefruit soda.'},
+      {id: 'md5', name: 'Aperol Spritz', servings: '1 serving', ingredients: ['3 oz prosecco', '2 oz Aperol', '1 oz soda water', 'Ice', 'Orange slice and green olive to garnish'], prep: 'Fill a large wine glass with ice. Pour prosecco first — always add sparkling wine before liqueur to preserve bubbles. Add Aperol. Top with a splash of soda water. Give it one gentle stir. Garnish with a slice of orange and a green olive on a cocktail pick. The ratio 3-2-1 is the classic formula — 3 parts prosecco, 2 parts Aperol, 1 part soda.'}
+    ]
+  },
+
+  // ===========================
+  // 🥂 MOCKTAIL DRINKS
+  // ===========================
+  
   {
     "id": "mocktails",
     "icon": "🧃",
