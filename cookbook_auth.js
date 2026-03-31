@@ -70,6 +70,15 @@ function show_auth_wall() {
     wall.innerHTML = `
       <div style="background:rgba(4,10,30,0.98);border:1px solid rgba(200,169,110,0.3);border-radius:14px;padding:28px;width:100%;max-width:360px;box-sizing:border-box;">
         <h2 style="font-family:'Playfair Display',serif;color:#c8a96e;font-size:22px;margin:0 0 6px 0;text-align:center;">Cookbook</h2>
+        <div style="display:flex;align-items:center;gap:8px;margin:14px 0;">
+  <div style="flex:1;height:1px;background:rgba(200,169,110,0.2);"></div>
+  <span style="font-family:'Space Mono',monospace;font-size:9px;color:rgba(200,169,110,0.4);">OR</span>
+  <div style="flex:1;height:1px;background:rgba(200,169,110,0.2);"></div>
+</div>
+<button onclick="handle_google_sign_in()"
+  style="width:100%;padding:13px;background:transparent;border:1px solid rgba(200,169,110,0.3);border-radius:8px;color:#e8dcc8;font-family:'Space Mono',monospace;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+  🔵 Sign In with Google
+</button>
         <p style="font-family:'Space Mono',monospace;font-size:10px;color:rgba(200,169,110,0.6);letter-spacing:2px;text-align:center;margin:0 0 24px 0;">SIGN IN TO CONTINUE</p>
 
         <div id="auth_error" style="display:none;background:rgba(255,80,80,0.1);border:1px solid rgba(255,80,80,0.3);border-radius:8px;padding:10px;margin-bottom:16px;font-family:'Space Mono',monospace;font-size:10px;color:#ff8080;text-align:center;"></div>
