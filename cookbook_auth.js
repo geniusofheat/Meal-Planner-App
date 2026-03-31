@@ -23,7 +23,7 @@ let current_user      = null;
 let cookbook_unlocked = false;
 let preview_used      = false;
 
-// ── Handle Google redirect result FIRST on page load ──────────
+// ── Handle Google redirect result on page load ─────────────────
 getRedirectResult(auth).then(async (result) => {
   if (result && result.user) {
     const user = result.user;
@@ -56,8 +56,7 @@ onAuthStateChanged(auth, async (user) => {
     if (createBtn)  createBtn.style.display   = 'none';
     if (signOutBtn) signOutBtn.style.display  = 'inline-block';
 
-    // Close auth wall if open
-    hide_auth_wall();
+    hide_sign_in_panel();
   } else {
     current_user      = null;
     cookbook_unlocked = false;
@@ -83,112 +82,91 @@ async function check_paid_status(uid) {
   }
 }
 
-// ── Show / hide auth wall ──────────────────────────────────────
-function show_auth_wall() {
-  let wall = document.getElementById('auth_wall');
-  if (!wall) {
-    wall = document.createElement('div');
-    wall.id = 'auth_wall';
-    wall.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(2,8,16,0.97);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box;';
-    wall.innerHTML = `
-      <div style="background:rgba(4,10,30,0.98);border:1px solid rgba(200,169,110,0.3);border-radius:14px;padding:28px;width:100%;max-width:360px;box-sizing:border-box;">
-        <h2 style="font-family:'Playfair Display',serif;color:#c8a96e;font-size:22px;margin:0 0 6px 0;text-align:center;">Cookbook</h2>
-        <p style="font-family:'Space Mono',monospace;font-size:10px;color:rgba(200,169,110,0.6);letter-spacing:2px;text-align:center;margin:0 0 20px 0;">SIGN IN TO CONTINUE</p>
-
-        <button onclick="handle_google_sign_in()"
-          style="width:100%;padding:13px;background:transparent;border:1px solid rgba(200,169,110,0.3);border-radius:8px;color:#e8dcc8;font-family:'Space Mono',monospace;font-size:11px;cursor:pointer;margin-bottom:16px;box-sizing:border-box;">
-          🔵 Sign In with Google
-        </button>
-
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
-          <div style="flex:1;height:1px;background:rgba(200,169,110,0.2);"></div>
-          <span style="font-family:'Space Mono',monospace;font-size:9px;color:rgba(200,169,110,0.4);">OR</span>
-          <div style="flex:1;height:1px;background:rgba(200,169,110,0.2);"></div>
-        </div>
-
-        <div id="auth_error" style="display:none;background:rgba(255,80,80,0.1);border:1px solid rgba(255,80,80,0.3);border-radius:8px;padding:10px;margin-bottom:16px;font-family:'Space Mono',monospace;font-size:10px;color:#ff8080;text-align:center;"></div>
-
-        <input id="auth_email" type="email" placeholder="Email address"
-          style="width:100%;padding:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(200,169,110,0.2);border-radius:8px;color:#e8dcc8;font-family:'Space Mono',monospace;font-size:11px;box-sizing:border-box;margin-bottom:10px;outline:none;" />
-
-        <input id="auth_password" type="password" placeholder="Password"
-          style="width:100%;padding:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(200,169,110,0.2);border-radius:8px;color:#e8dcc8;font-family:'Space Mono',monospace;font-size:11px;box-sizing:border-box;margin-bottom:18px;outline:none;" />
-
-        <button onclick="handle_sign_in()"
-          style="width:100%;padding:13px;background:rgba(200,169,110,0.15);border:1px solid rgba(200,169,110,0.4);border-radius:8px;color:#c8a96e;font-family:'Space Mono',monospace;font-size:11px;cursor:pointer;margin-bottom:10px;box-sizing:border-box;">
-          Sign In
-        </button>
-
-        <button onclick="handle_sign_up()"
-          style="width:100%;padding:13px;background:transparent;border:1px solid rgba(200,169,110,0.2);border-radius:8px;color:rgba(200,169,110,0.5);font-family:'Space Mono',monospace;font-size:11px;cursor:pointer;box-sizing:border-box;">
-          Create Account
-        </button>
-
-        <p style="font-family:'Space Mono',monospace;font-size:9px;color:rgba(150,150,150,0.4);text-align:center;margin:16px 0 0 0;">
-          Free account required to browse the cookbook.
-        </p>
-      </div>
-    `;
-    document.body.appendChild(wall);
-  }
-  wall.style.display = 'flex';
-}
-
-function hide_auth_wall() {
-  const wall = document.getElementById('auth_wall');
-  if (wall) wall.style.display = 'none';
-}
-
-// ── Google sign in — uses redirect for mobile compatibility ────
-window.handle_google_sign_in = async function() {
-  try {
-    await signInWithRedirect(auth, google_provider);
-  } catch (e) {
-    const err_el = document.getElementById('auth_error');
-    if (err_el) {
-      err_el.textContent   = e.message;
-      err_el.style.display = 'block';
-    }
-  }
+// ── Toggle sign in panel ───────────────────────────────────────
+window.toggle_sign_in_panel = function() {
+  const panel = document.getElementById('sign_in_panel');
+  if (!panel) return;
+  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
 };
 
-// ── Email sign in ──────────────────────────────────────────────
-window.handle_sign_in = async function() {
-  const email    = document.getElementById('auth_email').value.trim();
-  const password = document.getElementById('auth_password').value;
-  const err_el   = document.getElementById('auth_error');
-  err_el.style.display = 'none';
-  try {
-    await signInWithEmailAndPassword(auth, email, password);
-  } catch (e) {
-    err_el.textContent   = 'Incorrect email or password.';
-    err_el.style.display = 'block';
-  }
-};
+function hide_sign_in_panel() {
+  const panel = document.getElementById('sign_in_panel');
+  if (panel) panel.style.display = 'none';
+}
 
-// ── Sign up ────────────────────────────────────────────────────
-window.handle_sign_up = async function() {
-  const email    = document.getElementById('auth_email').value.trim();
-  const password = document.getElementById('auth_password').value;
-  const err_el   = document.getElementById('auth_error');
-  err_el.style.display = 'none';
-  if (password.length < 6) {
-    err_el.textContent   = 'Password must be at least 6 characters.';
-    err_el.style.display = 'block';
-    return;
-  }
-  try {
-    const cred = await createUserWithEmailAndPassword(auth, email, password);
-    await setDoc(doc(db, 'users', cred.user.uid), {
-      email:   email,
-      paid:    false,
-      created: new Date().toISOString()
+// ── Wire up sign in panel buttons on page load ─────────────────
+document.addEventListener('DOMContentLoaded', function() {
+
+  // Google sign in
+  const googleBtn = document.getElementById('google-sign-in-btn');
+  if (googleBtn) {
+    googleBtn.addEventListener('click', async () => {
+      try {
+        await signInWithRedirect(auth, google_provider);
+      } catch (e) {
+        show_auth_error(e.message);
+      }
     });
-  } catch (e) {
-    err_el.textContent   = e.message || 'Could not create account.';
+  }
+
+  // Email sign in
+  const emailSignInBtn = document.getElementById('email-sign-in-btn');
+  if (emailSignInBtn) {
+    emailSignInBtn.addEventListener('click', async () => {
+      const email    = document.getElementById('auth_email').value.trim();
+      const password = document.getElementById('auth_password').value;
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+      } catch (e) {
+        show_auth_error('Incorrect email or password.');
+      }
+    });
+  }
+
+  // Create account
+  const createBtn = document.getElementById('email-create-btn');
+  if (createBtn) {
+    createBtn.addEventListener('click', async () => {
+      const email    = document.getElementById('auth_email').value.trim();
+      const password = document.getElementById('auth_password').value;
+      if (password.length < 6) {
+        show_auth_error('Password must be at least 6 characters.');
+        return;
+      }
+      try {
+        const cred = await createUserWithEmailAndPassword(auth, email, password);
+        await setDoc(doc(db, 'users', cred.user.uid), {
+          email:   email,
+          paid:    false,
+          created: new Date().toISOString()
+        });
+      } catch (e) {
+        show_auth_error(e.message || 'Could not create account.');
+      }
+    });
+  }
+
+  // Sign out
+  const signOutBtn = document.getElementById('sign-out-btn');
+  if (signOutBtn) {
+    signOutBtn.addEventListener('click', async () => {
+      try {
+        await signOut(auth);
+      } catch (e) {
+        console.error('Sign out failed:', e);
+      }
+    });
+  }
+
+});
+
+function show_auth_error(msg) {
+  const err_el = document.getElementById('auth_error');
+  if (err_el) {
+    err_el.textContent   = msg;
     err_el.style.display = 'block';
   }
-};
+}
 
 // ── Recipe paywall check ───────────────────────────────────────
 window.check_and_open_recipe = function(recipe, icon, cat_name) {
@@ -251,20 +229,3 @@ window.close_paywall_modal = function() {
   const modal = document.getElementById('paywall_modal');
   if (modal) modal.style.display = 'none';
 };
-
-// ── Nav buttons ────────────────────────────────────────────────
-document.getElementById('sign-out-btn').addEventListener('click', async () => {
-  try {
-    await signOut(auth);
-  } catch (e) {
-    console.error('Sign out failed:', e);
-  }
-});
-
-document.getElementById('sign-in-btn').addEventListener('click', () => {
-  show_auth_wall();
-});
-
-document.getElementById('create-account-btn').addEventListener('click', () => {
-  show_auth_wall();
-});
