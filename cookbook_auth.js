@@ -23,50 +23,27 @@ let current_user      = null;
 let cookbook_unlocked = false;
 let preview_used      = false;
 
-// ── Handle Google redirect result on page load ─────────────────
-getRedirectResult(auth).then(async (result) => {
-  if (result && result.user) {
-    const user = result.user;
-    const snap = await getDoc(doc(db, 'users', user.uid));
-    if (!snap.exists()) {
-      await setDoc(doc(db, 'users', user.uid), {
-        email:   user.email,
-        paid:    false,
-        created: new Date().toISOString()
-      });
-    }
-  }
-}).catch((e) => {
-  console.error('Redirect result error:', e.code, e.message);
-});
-
-// ── On page load — check auth state ───────────────────────────
-onAuthStateChanged(auth, async (user) => {
+// ── Update nav bar helper ──────────────────────────────────────
+function update_nav(user) {
   const navEmail   = document.getElementById('nav-user-email');
   const signInBtn  = document.getElementById('sign-in-btn');
   const createBtn  = document.getElementById('create-account-btn');
   const signOutBtn = document.getElementById('sign-out-btn');
+  const panel      = document.getElementById('sign_in_panel');
 
   if (user) {
-    current_user = user;
-    await check_paid_status(user.uid);
-
-    if (navEmail)   navEmail.textContent      = `Welcome, ${user.email}`;
+    if (navEmail)   navEmail.textContent      = `Welcome, ${user.displayName || user.email}`;
     if (signInBtn)  signInBtn.style.display   = 'none';
     if (createBtn)  createBtn.style.display   = 'none';
     if (signOutBtn) signOutBtn.style.display  = 'inline-block';
-
-    hide_sign_in_panel();
+    if (panel)      panel.style.display       = 'none';
   } else {
-    current_user      = null;
-    cookbook_unlocked = false;
-
     if (navEmail)   navEmail.textContent      = 'Welcome, Guest';
     if (signInBtn)  signInBtn.style.display   = 'inline-block';
     if (createBtn)  createBtn.style.display   = 'inline-block';
     if (signOutBtn) signOutBtn.style.display  = 'none';
   }
-});
+}
 
 // ── Check Firestore for paid status ───────────────────────────
 async function check_paid_status(uid) {
@@ -82,6 +59,41 @@ async function check_paid_status(uid) {
   }
 }
 
+// ── Handle redirect result from Google ────────────────────────
+getRedirectResult(auth).then(async (result) => {
+  if (result && result.user) {
+    const user = result.user;
+    // Create Firestore doc if first time
+    const snap = await getDoc(doc(db, 'users', user.uid));
+    if (!snap.exists()) {
+      await setDoc(doc(db, 'users', user.uid), {
+        email:   user.email,
+        paid:    false,
+        created: new Date().toISOString()
+      });
+    }
+    // Update nav immediately after redirect
+    await check_paid_status(user.uid);
+    current_user = user;
+    update_nav(user);
+  }
+}).catch((e) => {
+  console.error('Redirect error:', e.code, e.message);
+});
+
+// ── Auth state listener ────────────────────────────────────────
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    current_user = user;
+    await check_paid_status(user.uid);
+    update_nav(user);
+  } else {
+    current_user      = null;
+    cookbook_unlocked = false;
+    update_nav(null);
+  }
+});
+
 // ── Toggle sign in panel ───────────────────────────────────────
 window.toggle_sign_in_panel = function() {
   const panel = document.getElementById('sign_in_panel');
@@ -89,12 +101,7 @@ window.toggle_sign_in_panel = function() {
   panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
 };
 
-function hide_sign_in_panel() {
-  const panel = document.getElementById('sign_in_panel');
-  if (panel) panel.style.display = 'none';
-}
-
-// ── Wire up sign in panel buttons on page load ─────────────────
+// ── Wire up buttons after DOM loads ───────────────────────────
 document.addEventListener('DOMContentLoaded', function() {
 
   // Google sign in
@@ -124,9 +131,9 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Create account
-  const createBtn = document.getElementById('email-create-btn');
-  if (createBtn) {
-    createBtn.addEventListener('click', async () => {
+  const emailCreateBtn = document.getElementById('email-create-btn');
+  if (emailCreateBtn) {
+    emailCreateBtn.addEventListener('click', async () => {
       const email    = document.getElementById('auth_email').value.trim();
       const password = document.getElementById('auth_password').value;
       if (password.length < 6) {
@@ -160,6 +167,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
+// ── Auth error helper ──────────────────────────────────────────
 function show_auth_error(msg) {
   const err_el = document.getElementById('auth_error');
   if (err_el) {
