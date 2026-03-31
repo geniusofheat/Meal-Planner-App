@@ -13,6 +13,22 @@
 </head>
 
 <body>
+  <!-- ── This is the part jetson added ── -->
+<!-- ── BEGIN DYNAMIC AUTH NAV BAR ── -->
+<nav id="auth-nav" style="display:flex;justify-content:flex-end;align-items:center;gap:12px;padding:12px 24px;background:#1a2a4a;border-bottom:1px solid gold;border-radius:0 0 8px 8px;">
+  <div id="nav-user-email" style="color:gold;font-family:'Space Mono',monospace;font-size:12px;">Welcome, Guest</div>
+  <button id="sign-in-btn" style="padding:6px 12px;font-family:'Space Mono',monospace;font-size:11px;background:rgba(200,169,110,0.15);border:1px solid rgba(200,169,110,0.4);border-radius:6px;color:#c8a96e;cursor:pointer;">
+    Sign In
+  </button>
+  <button id="create-account-btn" style="padding:6px 12px;font-family:'Space Mono',monospace;font-size:11px;background:transparent;border:1px solid rgba(200,169,110,0.2);border-radius:6px;color:rgba(200,169,110,0.5);cursor:pointer;">
+    Create Account
+  </button>
+  <button id="sign-out-btn" style="display:none;padding:6px 12px;font-family:'Space Mono',monospace;font-size:11px;background:rgba(200,169,110,0.2);border:1px solid rgba(200,169,110,0.4);border-radius:6px;color:#c8a96e;cursor:pointer;">
+    Sign Out
+  </button>
+</nav>
+<!-- ── END DYNAMIC AUTH NAV BAR ── -->
+
 <div id="app">
 
   <!-- ── PAGE HEADER ── -->
