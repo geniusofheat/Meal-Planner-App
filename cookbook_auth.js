@@ -49,6 +49,22 @@ onAuthStateChanged(auth, async (user) => {
     if (signOutBtn) signOutBtn.style.display = 'none';
   }
 });
+// ── Handle Google redirect result on page load ─────────────────
+import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js").then(({ getRedirectResult }) => {
+  getRedirectResult(auth).then(async (result) => {
+    if (result && result.user) {
+      const user = result.user;
+      const snap = await getDoc(doc(db, 'users', user.uid));
+      if (!snap.exists()) {
+        await setDoc(doc(db, 'users', user.uid), {
+          email: user.email,
+          paid: false,
+          created: new Date().toISOString()
+        });
+      }
+    }
+  }).catch((e) => console.error('Redirect result error:', e));
+});
 // ── Check Firestore for paid status ───────────────────────────
 async function check_paid_status(uid) {
   try {
