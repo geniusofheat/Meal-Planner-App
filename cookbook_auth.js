@@ -7,10 +7,10 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
-  sendPasswordResetEmail,
   GoogleAuthProvider,
   signInWithRedirect,
-  getRedirectResult
+  getRedirectResult,
+  sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
@@ -42,21 +42,17 @@ function update_nav(user) {
   }
 }
 
-// ── Check Firestore for paid status ──────────────────────────
+// ── Check Firestore for paid status ───────────────────────────
 async function check_paid_status(uid) {
   try {
     const snap = await getDoc(doc(db, 'users', uid));
-    if (snap.exists()) {
-      cookbook_unlocked = snap.data().paid === true;
-    } else {
-      cookbook_unlocked = false;
-    }
+    cookbook_unlocked = snap.exists() ? snap.data().paid === true : false;
   } catch (e) {
     cookbook_unlocked = false;
   }
 }
 
-// ── Handle redirect result from Google ───────────────────────
+// ── Handle redirect result from Google ────────────────────────
 getRedirectResult(auth).then(async (result) => {
   if (result && result.user) {
     const user = result.user;
@@ -71,10 +67,14 @@ getRedirectResult(auth).then(async (result) => {
     await check_paid_status(user.uid);
     current_user = user;
     update_nav(user);
+    // Redirect to index.html after Google login
+    if (window.location.pathname.includes('login.html')) {
+      window.location.href = 'index.html';
+    }
   }
-}).catch((e) => console.error('Redirect error:', e.message));
+}).catch((e) => console.error('Redirect error:', e.code, e.message));
 
-// ── Auth state listener ───────────────────────────────────────
+// ── Auth state listener ────────────────────────────────────────
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     current_user = user;
@@ -87,14 +87,14 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
-// ── Toggle sign in panel ─────────────────────────────────────
+// ── Toggle sign in panel ───────────────────────────────────────
 window.toggle_sign_in_panel = function() {
   const panel = document.getElementById('sign_in_panel');
   if (!panel) return;
   panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
 };
 
-// ── Wire up buttons after DOM loads ──────────────────────────
+// ── Wire up buttons after DOM loads ───────────────────────────
 document.addEventListener('DOMContentLoaded', function() {
 
   // Google sign in
@@ -146,6 +146,30 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  // Forgot password recovery
+  const recoverBtn = document.getElementById('recover-password-btn');
+  if (recoverBtn) {
+    recoverBtn.addEventListener('click', () => {
+      const emailField = document.getElementById('auth_email');
+      const sendBtn    = document.getElementById('send-recovery-btn');
+      if (!sendBtn) {
+        const btn = document.createElement('button');
+        btn.id = 'send-recovery-btn';
+        btn.textContent = 'Send Recovery Email';
+        btn.style.cssText = 'margin-top:10px;padding:10px;width:100%;background:rgba(200,169,110,0.2);border:1px solid rgba(200,169,110,0.4);border-radius:6px;color:#c8a96e;cursor:pointer;';
+        emailField.insertAdjacentElement('afterend', btn);
+        btn.addEventListener('click', async () => {
+          try {
+            await sendPasswordResetEmail(auth, emailField.value.trim());
+            alert('Recovery email sent. Check your inbox.');
+          } catch (e) {
+            show_auth_error(e.message || 'Could not send recovery email.');
+          }
+        });
+      }
+    });
+  }
+
   // Sign out
   const signOutBtn = document.getElementById('sign-out-btn');
   if (signOutBtn) {
@@ -158,32 +182,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Password recovery
-  const sendRecoveryBtn = document.getElementById('send-recovery-btn');
-  if (sendRecoveryBtn) {
-    sendRecoveryBtn.addEventListener('click', async () => {
-      const email = document.getElementById('recovery_email').value.trim();
-      const msg   = document.getElementById('recovery-message');
-      msg.style.display = 'none';
-      if (!email) {
-        msg.textContent = 'Please enter your email.';
-        msg.style.display = 'block';
-        return;
-      }
-      try {
-        await sendPasswordResetEmail(auth, email);
-        msg.textContent = 'Recovery email sent. Check your inbox.';
-        msg.style.display = 'block';
-      } catch (e) {
-        msg.textContent = e.message || 'Failed to send recovery email.';
-        msg.style.display = 'block';
-      }
-    });
-  }
-
 });
 
-// ── Auth error helper ───────────────────────────────────────
+// ── Auth error helper ──────────────────────────────────────────
 function show_auth_error(msg) {
   const err_el = document.getElementById('auth_error');
   if (err_el) {
@@ -192,7 +193,7 @@ function show_auth_error(msg) {
   }
 }
 
-// ── Recipe paywall check ─────────────────────────────────────
+// ── Recipe paywall check ───────────────────────────────────────
 window.check_and_open_recipe = function(recipe, icon, cat_name) {
   if (cookbook_unlocked) {
     open_recipe_modal(recipe, icon, cat_name);
@@ -207,7 +208,7 @@ window.check_and_open_recipe = function(recipe, icon, cat_name) {
   show_paywall_modal();
 };
 
-// ── Preview banner ───────────────────────────────────────────
+// ── Preview banner ─────────────────────────────────────────────
 function show_preview_banner() {
   const body = document.getElementById('recipe_modal_body');
   if (!body) return;
@@ -224,7 +225,7 @@ function show_preview_banner() {
   body.appendChild(banner);
 }
 
-// ── Paywall modal ─────────────────────────────────────────────
+// ── Paywall modal ──────────────────────────────────────────────
 window.show_paywall_modal = function() {
   let modal = document.getElementById('paywall_modal');
   if (!modal) {
