@@ -3,59 +3,70 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meal Planner — Sign In / Create Account</title>
-
+<title>Sign In — Meal Planner</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;900&family=Crimson+Pro:ital,wght@0,400;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="blue_card_style.css">
 </head>
+<body style="background:#1a2a4a;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;">
 
-<body style="background:#1a2a4a;color:#e8dcc8;font-family:'Crimson Pro',serif;display:flex;justify-content:center;align-items:center;min-height:100vh;">
-
-<div style="width:100%;max-width:400px;margin:20px;">
-
-  <h1 style="text-align:center;font-family:'Playfair Display',serif;color:#c8a96e;margin-bottom:16px;">Sign In or Create an Account</h1>
-
-  <!-- ── AUTH CARD ── -->
-  <div style="background:#11203b;border:2px solid gold;border-radius:14px;padding:24px;box-sizing:border-box;">
-
-    <!-- Google Sign-In -->
-    <div style="text-align:center;margin-bottom:16px;">
-      <button id="google-sign-in-btn" class="btn-blue" style="width:100%;padding:12px;font-size:14px;cursor:pointer;">
-        Sign in with Google
-      </button>
+<div class="card" style="border:2px solid gold;max-width:400px;width:90%;padding:24px;box-sizing:border-box;text-align:center;background:#1f3664;">
+  <h2 style="color:gold;font-family:'Playfair Display',serif;margin-bottom:16px;">Sign In or Create Account</h2>
+  
+  <!-- GOOGLE SIGN-IN -->
+  <button id="google-sign-in-btn" class="btn-blue" style="width:100%;margin-bottom:16px;">Sign in with Google</button>
+  
+  <hr style="border-color:rgba(200,169,110,0.3);margin:16px 0;">
+  
+  <!-- EMAIL/PASSWORD SIGN-IN -->
+  <div style="text-align:left;">
+    <label for="auth_email" style="color:#e8dcc8;font-family:'Space Mono',monospace;font-size:12px;">Email</label>
+    <input type="email" id="auth_email" style="width:100%;padding:8px;margin-bottom:8px;border-radius:6px;border:1px solid rgba(200,169,110,0.4);background:#1a2a4a;color:#fff;">
+    
+    <label for="auth_password" style="color:#e8dcc8;font-family:'Space Mono',monospace;font-size:12px;">Password</label>
+    <input type="password" id="auth_password" style="width:100%;padding:8px;margin-bottom:8px;border-radius:6px;border:1px solid rgba(200,169,110,0.4);background:#1a2a4a;color:#fff;">
+    
+    <button id="email-sign-in-btn" class="btn-blue" style="width:100%;margin-bottom:8px;">Sign In</button>
+    <button id="email-create-btn" class="btn-blue" style="width:100%;margin-bottom:8px;">Create Account</button>
+    
+    <!-- PASSWORD RECOVERY -->
+    <button id="password-recovery-toggle" class="btn-blue" style="width:100%;margin-bottom:8px;">Forgot Password?</button>
+    <div id="password-recovery-form" style="display:none;margin-top:8px;">
+      <input type="email" id="recovery_email" placeholder="Enter your email" style="width:100%;padding:8px;margin-bottom:8px;border-radius:6px;border:1px solid rgba(200,169,110,0.4);background:#1a2a4a;color:#fff;">
+      <button id="send-recovery-btn" class="btn-blue" style="width:100%;">Send Recovery Email</button>
+      <p id="recovery-message" style="color:#c8a96e;font-family:'Space Mono',monospace;font-size:12px;margin-top:8px;display:none;"></p>
     </div>
-
-    <hr style="border:1px solid rgba(200,169,110,0.3);margin:16px 0;">
-
-    <!-- Email/Password Login -->
-    <div style="margin-bottom:12px;">
-      <label for="auth_email" style="display:block;margin-bottom:4px;">Email</label>
-      <input id="auth_email" type="email" placeholder="you@example.com" style="width:100%;padding:8px;border-radius:6px;border:1px solid rgba(200,169,110,0.3);background:#1a2a4a;color:#e8dcc8;">
-    </div>
-    <div style="margin-bottom:12px;">
-      <label for="auth_password" style="display:block;margin-bottom:4px;">Password</label>
-      <input id="auth_password" type="password" placeholder="Enter password" style="width:100%;padding:8px;border-radius:6px;border:1px solid rgba(200,169,110,0.3);background:#1a2a4a;color:#e8dcc8;">
-    </div>
-
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-      <button id="email-sign-in-btn" class="btn-blue" style="padding:10px 16px;cursor:pointer;">Sign In</button>
-      <button id="email-create-btn" class="btn-blue" style="padding:10px 16px;cursor:pointer;background:transparent;border:1px solid rgba(200,169,110,0.4);color:#c8a96e;">
-        Create Account
-      </button>
-    </div>
-
-    <div style="text-align:right;margin-bottom:12px;">
-      <button id="forgot-password-btn" style="background:none;border:none;color:#c8a96e;font-size:12px;cursor:pointer;">
-        Forgot Password?
-      </button>
-    </div>
-
-    <div id="auth_error" style="display:none;color:#f0a76b;font-size:12px;margin-top:8px;text-align:center;"></div>
-
-  </div> <!-- close auth card -->
-
+    
+    <p id="auth_error" style="color:#c84d4d;font-family:'Space Mono',monospace;font-size:12px;margin-top:8px;display:none;"></p>
+  </div>
 </div>
 
 <script type="module" src="cookbook_auth.js"></script>
+<script>
+  // Toggle recovery form
+  document.getElementById('password-recovery-toggle').addEventListener('click', () => {
+    const form = document.getElementById('password-recovery-form');
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+  });
+
+  // Send recovery email
+  document.getElementById('send-recovery-btn').addEventListener('click', async () => {
+    const email = document.getElementById('recovery_email').value.trim();
+    const message = document.getElementById('recovery-message');
+    message.style.display = 'none';
+    if (!email) {
+      message.textContent = 'Please enter your email.';
+      message.style.display = 'block';
+      return;
+    }
+    try {
+      await sendPasswordResetEmail(auth, email);
+      message.textContent = 'Recovery email sent. Check your inbox.';
+      message.style.display = 'block';
+    } catch (e) {
+      message.textContent = e.message || 'Failed to send recovery email.';
+      message.style.display = 'block';
+    }
+  });
+</script>
 </body>
 </html>
