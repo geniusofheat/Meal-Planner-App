@@ -63,17 +63,8 @@ async function check_paid_status(uid) {
   }
 }
 
-// ── Auth state listener ────────────────────────────────────────
-onAuthStateChanged(auth, async (user) => {
-  currentUser = user;
-  updateNavBar(user);
-  if (user) {
-    await check_paid_status(user.uid);
-    showPostLoginOptions(user);
-  }
-});
-
 // ── Handle Google redirect result ─────────────────────────────
+// This MUST run before onAuthStateChanged
 getRedirectResult(auth)
   .then(async (result) => {
     if (result && result.user) {
@@ -90,12 +81,37 @@ getRedirectResult(auth)
       await check_paid_status(user.uid);
       updateNavBar(user);
       showPostLoginOptions(user);
+      // Redirect to index after successful Google sign in
       window.location.href = 'index.html';
     }
   })
-  .catch(console.error);
+  .catch((e) => {
+    console.error('Redirect error:', e.code, e.message);
+    const el = document.getElementById('auth_error');
+    if (el) { el.textContent = e.message; el.style.display = 'block'; }
+  });
+
+// ── Auth state listener ────────────────────────────────────────
+onAuthStateChanged(auth, async (user) => {
+  currentUser = user;
+  updateNavBar(user);
+  if (user) {
+    await check_paid_status(user.uid);
+    showPostLoginOptions(user);
+  }
+});
 
 // ── Auth functions ─────────────────────────────────────────────
+export async function googleSignIn() {
+  try {
+    await signInWithRedirect(auth, googleProvider);
+  } catch (e) {
+    console.error(e);
+    const el = document.getElementById('auth_error');
+    if (el) { el.textContent = e.message; el.style.display = 'block'; }
+  }
+}
+
 export async function emailSignIn(email, password, showError) {
   try {
     await signInWithEmailAndPassword(auth, email, password);
@@ -132,14 +148,6 @@ export async function signOutUser() {
   }
 }
 
-export async function googleSignIn() {
-  try {
-    await signInWithRedirect(auth, googleProvider);
-  } catch (e) {
-    console.error(e);
-  }
-}
-
 export async function sendRecoveryEmail(email, showError) {
   if (!email) {
     if (showError) showError('Enter a valid email.');
@@ -147,7 +155,7 @@ export async function sendRecoveryEmail(email, showError) {
   }
   try {
     await sendPasswordResetEmail(auth, email);
-    alert('Password recovery email sent.');
+    alert('Password recovery email sent. Check your inbox.');
   } catch (e) {
     if (showError) showError(e.message);
   }
