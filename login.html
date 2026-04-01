@@ -3,105 +3,78 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meal Planner — Sign In</title>
+
+<title>Meal Planner — Login</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;900&family=Crimson+Pro:ital,wght@0,400;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="blue_card_style.css">
 </head>
+
 <body>
+  <!-- ── STATIC NAV BAR ── -->
+  <nav id="auth-nav" style="display:flex;justify-content:flex-end;align-items:center;gap:12px;padding:12px 24px;background:#1a2a4a;border-bottom:1px solid gold;border-radius:0 0 8px 8px;">
+    <div id="nav-user-email" style="color:gold;font-family:'Space Mono',monospace;font-size:12px;">Welcome, Guest</div>
+    <button id="sign-in-btn" style="padding:6px 12px;font-family:'Space Mono',monospace;font-size:11px;background:rgba(200,169,110,0.15);border:1px solid rgba(200,169,110,0.4);border-radius:6px;color:#c8a96e;cursor:pointer;">
+      Sign In
+    </button>
+    <button id="create-account-btn" style="padding:6px 12px;font-family:'Space Mono',monospace;font-size:11px;background:transparent;border:1px solid rgba(200,169,110,0.2);border-radius:6px;color:rgba(200,169,110,0.5);cursor:pointer;">
+      Create Account
+    </button>
+    <button id="sign-out-btn" style="display:none;padding:6px 12px;font-family:'Space Mono',monospace;font-size:11px;background:rgba(200,169,110,0.2);border:1px solid rgba(200,169,110,0.4);border-radius:6px;color:#c8a96e;cursor:pointer;">
+      Sign Out
+    </button>
+  </nav>
 
-<!-- ── DYNAMIC AUTH NAV BAR ── -->
-<nav id="auth-nav" style="display:flex;justify-content:flex-end;align-items:center;gap:12px;padding:12px 24px;background:#1a2a4a;border-bottom:1px solid gold;border-radius:0 0 8px 8px;">
-  <div id="nav-user-email" style="color:gold;font-family:'Space Mono',monospace;font-size:12px;">Welcome, Guest</div>
-  <button id="sign-in-btn" style="padding:6px 12px;font-family:'Space Mono',monospace;font-size:11px;background:rgba(200,169,110,0.15);border:1px solid rgba(200,169,110,0.4);border-radius:6px;color:#c8a96e;cursor:pointer;">
-    Sign In
-  </button>
-  <button id="create-account-btn" style="padding:6px 12px;font-family:'Space Mono',monospace;font-size:11px;background:transparent;border:1px solid rgba(200,169,110,0.2);border-radius:6px;color:rgba(200,169,110,0.5);cursor:pointer;">
-    Create Account
-  </button>
-  <button id="sign-out-btn" style="display:none;padding:6px 12px;font-family:'Space Mono',monospace;font-size:11px;background:rgba(200,169,110,0.2);border:1px solid rgba(200,169,110,0.4);border-radius:6px;color:#c8a96e;cursor:pointer;">
-    Sign Out
-  </button>
-</nav>
+  <div id="app" style="max-width:500px;margin:40px auto;">
 
-<!-- ── LOGIN CARD ── -->
-<div class="page-header" style="text-align:center;margin-top:30px;">
-  <h1>Sign In or Create an Account</h1>
-</div>
+    <!-- ── DYNAMIC WELCOME PARAGRAPH ── -->
+    <p id="login-welcome" style="font-family:'Crimson Pro',serif;font-size:16px;color:#e8dcc8;margin-bottom:20px;text-align:center;">
+      Please sign in to access the Meal Planner tools.
+    </p>
 
-<div style="display:flex;justify-content:center;margin-top:20px;">
-  <div class="card" style="max-width:400px;width:100%;border:2px solid gold;padding:20px;box-sizing:border-box;">
-    <div class="card-body">
-      <!-- Google Sign-In -->
-      <button id="google-sign-in-btn" class="btn-blue" style="width:100%;margin-bottom:15px;">Sign in with Google</button>
-
-      <hr style="margin:15px 0;border-color:rgba(200,169,110,0.3)">
-
-      <!-- Email/Password Sign-In -->
-      <input type="email" id="auth_email" placeholder="Email" style="width:100%;padding:10px;margin-bottom:10px;box-sizing:border-box;">
-      <input type="password" id="auth_password" placeholder="Password" style="width:100%;padding:10px;margin-bottom:10px;box-sizing:border-box;">
-      <button id="email-sign-in-btn" class="btn-blue" style="width:100%;margin-bottom:10px;">Sign In</button>
-      <button id="email-create-btn" class="btn-blue" style="width:100%;margin-bottom:10px;">Create Account</button>
-
-      <!-- Password Recovery -->
-      <button id="forgot-password-btn" class="btn-blue" style="width:100%;margin-bottom:10px;">Password Recovery</button>
-      <div id="password-recovery-container" style="display:none;margin-top:10px;">
-        <input type="email" id="recovery_email" placeholder="Enter your email" style="width:100%;padding:10px;margin-bottom:10px;box-sizing:border-box;">
-        <button id="send-recovery-btn" class="btn-blue" style="width:100%;">Send Recovery Email</button>
+    <!-- ── LOGIN CARD ── -->
+    <div class="card" style="border:2px solid gold; background:#1a2a4a; padding:24px; border-radius:12px;">
+      <div class="card-header">
+        <h2 style="font-family:'Playfair Display',serif;color:#c8a96e;text-align:center;margin-bottom:12px;">Sign In or Create Account</h2>
+        <hr style="border-color:gold;margin-bottom:16px;">
       </div>
 
-      <!-- Error Message -->
-      <p id="auth_error" style="display:none;color:red;font-family:'Space Mono',monospace;font-size:12px;text-align:center;margin-top:10px;"></p>
+      <div class="card-body" style="display:flex;flex-direction:column;gap:14px;">
+        <!-- Google Sign In -->
+        <button id="google-sign-in-btn" class="btn-blue" style="width:100%;padding:12px;">
+          Sign in with Google
+        </button>
+
+        <!-- Email/Password Sign In -->
+        <input type="email" id="auth_email" placeholder="Email" style="padding:10px;border-radius:6px;border:1px solid #c8a96e;background:#0f1a33;color:#fff;">
+        <input type="password" id="auth_password" placeholder="Password" style="padding:10px;border-radius:6px;border:1px solid #c8a96e;background:#0f1a33;color:#fff;">
+        <button id="email-sign-in-btn" class="btn-blue" style="width:100%;padding:12px;">Sign In</button>
+
+        <!-- Password Recovery -->
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <input type="email" id="recover_email" placeholder="Enter your email to recover password" style="padding:10px;border-radius:6px;border:1px solid #c8a96e;background:#0f1a33;color:#fff;">
+          <button id="password-recover-btn" class="btn-blue" style="width:100%;padding:12px;">Send Recovery Email</button>
+        </div>
+
+        <!-- Create Account -->
+        <button id="email-create-btn" class="btn-blue" style="width:100%;padding:12px;">Create Account</button>
+
+        <!-- Auth Error -->
+        <p id="auth_error" style="display:none;color:red;font-family:'Space Mono',monospace;font-size:12px;text-align:center;"></p>
+      </div>
+    </div>
+
+    <!-- ── NAVIGATE TO INDEX BUTTON ── -->
+    <p style="text-align:center;margin:20px 0 10px 0;color:#e8dcc8;font-family:'Crimson Pro',serif;">
+      Click the button below to visit the index and browse all of the Meal Planner tools.
+    </p>
+    <div style="text-align:center;">
+      <button onclick="window.location.href='index.html'" class="btn-blue" style="padding:12px 24px;">Go to Home</button>
     </div>
   </div>
-</div>
 
-<!-- ── POST LOGIN MESSAGE ── -->
-<div style="text-align:center;margin-top:30px;">
-  <p id="login_welcome_msg" style="font-family:'Crimson Pro',serif;font-size:16px;color:#e8dcc8;"></p>
-  <p>Click the button below to visit the index and browse all of the meal planner tools.</p>
-  <button class="btn-blue" style="padding:10px 20px;" onclick="window.location.href='index.html'">Go to Home Page</button>
-</div>
-
-<script type="module" src="cookbook_auth.js"></script>
-<script>
-  // Toggle password recovery fields
-  document.getElementById('forgot-password-btn').addEventListener('click', () => {
-    const container = document.getElementById('password-recovery-container');
-    container.style.display = container.style.display === 'none' ? 'block' : 'none';
-  });
-
-  // Send password recovery email
-  document.getElementById('send-recovery-btn').addEventListener('click', async () => {
-    const email = document.getElementById('recovery_email').value.trim();
-    if (!email) {
-      alert('Please enter your email.');
-      return;
-    }
-    try {
-      await firebase.auth().sendPasswordResetEmail(email);
-      alert('Recovery email sent. Please check your inbox.');
-    } catch (e) {
-      alert('Error sending recovery email: ' + e.message);
-    }
-  });
-
-  // Display post-login welcome message dynamically
-  import { auth } from './firebase_config.js';
-  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
-  onAuthStateChanged(auth, (user) => {
-    const msg = document.getElementById('login_welcome_msg');
-    const navEmail = document.getElementById('nav-user-email');
-    if (user) {
-      msg.textContent = `Congratulations, you’ve signed in as ${user.displayName || user.email}!`;
-      if (navEmail) navEmail.textContent = `Welcome, ${user.displayName || user.email}`;
-    } else {
-      msg.textContent = '';
-      if (navEmail) navEmail.textContent = 'Welcome, Guest';
-    }
-  });
-</script>
-
+  <!-- ── SCRIPTS ── -->
+  <script type="module" src="cookbook_auth.js"></script>
 </body>
 </html>
