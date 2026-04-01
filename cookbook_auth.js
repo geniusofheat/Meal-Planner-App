@@ -1,13 +1,13 @@
 // ================================================================
-//  cookbook_auth.js — Cookbook Paywall & Auth System (Updated)
+//  cookbook_auth.js — Cookbook Paywall & Auth System
 // ================================================================
 
 import { auth, db, onAuthStateChanged } from './firebase_config.js';
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  sendPasswordResetEmail,
   signOut,
+  sendPasswordResetEmail,
   GoogleAuthProvider,
   signInWithRedirect,
   getRedirectResult
@@ -15,30 +15,37 @@ import {
 import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 // ── State ──────────────────────────────────────────────────────
-const google_provider = new GoogleAuthProvider();
-google_provider.setCustomParameters({ prompt: 'select_account' });
+const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({ prompt: 'select_account' });
 
-let current_user = null;
+let currentUser       = null;
 let cookbook_unlocked = false;
-let preview_used = false;
+let preview_used      = false;
 
 // ── Update nav bar ─────────────────────────────────────────────
-function update_nav(user) {
+export function updateNavBar(user) {
   const navEmail   = document.getElementById('nav-user-email');
-  const signInBtn  = document.getElementById('sign-in-btn');
-  const createBtn  = document.getElementById('create-account-btn');
   const signOutBtn = document.getElementById('sign-out-btn');
-
+  if (!navEmail || !signOutBtn) return;
   if (user) {
-    if (navEmail)   navEmail.textContent      = `Welcome, ${user.displayName || user.email}`;
-    if (signInBtn)  signInBtn.style.display   = 'none';
-    if (createBtn)  createBtn.style.display   = 'none';
-    if (signOutBtn) signOutBtn.style.display  = 'inline-block';
+    navEmail.textContent     = `Welcome, ${user.displayName || user.email}`;
+    signOutBtn.style.display = 'inline-block';
   } else {
-    if (navEmail)   navEmail.textContent      = 'Welcome, Guest';
-    if (signInBtn)  signInBtn.style.display   = 'inline-block';
-    if (createBtn)  createBtn.style.display   = 'inline-block';
-    if (signOutBtn) signOutBtn.style.display  = 'none';
+    navEmail.textContent     = 'Welcome, Guest';
+    signOutBtn.style.display = 'none';
+  }
+}
+
+// ── Show post login options ────────────────────────────────────
+export function showPostLoginOptions(user) {
+  const postLogin = document.getElementById('post-login-options');
+  const msg       = document.getElementById('login-message');
+  if (!postLogin || !msg) return;
+  if (user) {
+    msg.textContent         = `You are signed in as ${user.displayName || user.email}.`;
+    postLogin.style.display = 'block';
+  } else {
+    postLogin.style.display = 'none';
   }
 }
 
@@ -46,149 +53,141 @@ function update_nav(user) {
 async function check_paid_status(uid) {
   try {
     const snap = await getDoc(doc(db, 'users', uid));
-    cookbook_unlocked = snap.exists() && snap.data().paid === true;
+    if (snap.exists()) {
+      cookbook_unlocked = snap.data().paid === true;
+    } else {
+      cookbook_unlocked = false;
+    }
   } catch (e) {
     cookbook_unlocked = false;
   }
 }
 
-// ── Handle redirect result from Google ────────────────────────
-getRedirectResult(auth).then(async (result) => {
-  if (result && result.user) {
-    const user = result.user;
-    const snap = await getDoc(doc(db, 'users', user.uid));
-    if (!snap.exists()) {
-      await setDoc(doc(db, 'users', user.uid), {
-        email: user.email,
-        paid: false,
-        created: new Date().toISOString()
-      });
-    }
-    await check_paid_status(user.uid);
-    current_user = user;
-    update_nav(user);
-
-    // Redirect to index page after successful Google login
-    if (window.location.pathname.endsWith('login.html')) {
-      window.location.replace('index.html');
-    }
-  }
-}).catch((e) => console.error('Redirect error:', e.code, e.message));
-
 // ── Auth state listener ────────────────────────────────────────
 onAuthStateChanged(auth, async (user) => {
+  currentUser = user;
+  updateNavBar(user);
   if (user) {
-    current_user = user;
     await check_paid_status(user.uid);
-    update_nav(user);
-  } else {
-    current_user = null;
-    cookbook_unlocked = false;
-    update_nav(null);
+    showPostLoginOptions(user);
   }
 });
 
-// ── Wire up buttons ────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', function() {
-
-  // Google sign in
-  const googleBtn = document.getElementById('google-sign-in-btn');
-  if (googleBtn) {
-    googleBtn.addEventListener('click', async () => {
-      try {
-        await signInWithRedirect(auth, google_provider);
-      } catch (e) {
-        show_auth_error(e.message);
-      }
-    });
-  }
-
-  // Email sign in
-  const emailSignInBtn = document.getElementById('email-sign-in-btn');
-  if (emailSignInBtn) {
-    emailSignInBtn.addEventListener('click', async () => {
-      const email    = document.getElementById('auth_email').value.trim();
-      const password = document.getElementById('auth_password').value;
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-      } catch (e) {
-        show_auth_error('Incorrect email or password.');
-      }
-    });
-  }
-
-  // Create account
-  const emailCreateBtn = document.getElementById('email-create-btn');
-  if (emailCreateBtn) {
-    emailCreateBtn.addEventListener('click', async () => {
-      const email    = document.getElementById('auth_email').value.trim();
-      const password = document.getElementById('auth_password').value;
-      if (password.length < 6) {
-        show_auth_error('Password must be at least 6 characters.');
-        return;
-      }
-      try {
-        const cred = await createUserWithEmailAndPassword(auth, email, password);
-        await setDoc(doc(db, 'users', cred.user.uid), {
-          email,
-          paid: false,
+// ── Handle Google redirect result ─────────────────────────────
+getRedirectResult(auth)
+  .then(async (result) => {
+    if (result && result.user) {
+      const user = result.user;
+      const snap = await getDoc(doc(db, 'users', user.uid));
+      if (!snap.exists()) {
+        await setDoc(doc(db, 'users', user.uid), {
+          email:   user.email,
+          paid:    false,
           created: new Date().toISOString()
         });
-      } catch (e) {
-        show_auth_error(e.message || 'Could not create account.');
       }
-    });
-  }
+      currentUser = user;
+      await check_paid_status(user.uid);
+      updateNavBar(user);
+      showPostLoginOptions(user);
+      window.location.href = 'index.html';
+    }
+  })
+  .catch(console.error);
 
-  // Password recovery
-  const passwordRecoverBtn = document.getElementById('password-recover-btn');
-  if (passwordRecoverBtn) {
-    passwordRecoverBtn.addEventListener('click', () => {
-      const recoveryContainer = document.getElementById('password-recovery-container');
-      if (recoveryContainer) recoveryContainer.style.display = 'block';
-    });
-  }
-
-  const passwordSendBtn = document.getElementById('password-send-btn');
-  if (passwordSendBtn) {
-    passwordSendBtn.addEventListener('click', async () => {
-      const emailField = document.getElementById('auth_email');
-      const email = emailField ? emailField.value.trim() : '';
-      if (!email) {
-        show_auth_error('Please enter your email to send recovery link.');
-        return;
-      }
-      try {
-        await sendPasswordResetEmail(auth, email);
-        alert('Recovery email sent. Check your inbox.');
-      } catch (e) {
-        show_auth_error(e.message);
-      }
-    });
-  }
-
-  // Sign out
-  const signOutBtn = document.getElementById('sign-out-btn');
-  if (signOutBtn) {
-    signOutBtn.addEventListener('click', async () => {
-      try {
-        await signOut(auth);
-      } catch (e) {
-        console.error('Sign out failed:', e);
-      }
-    });
-  }
-
-});
-
-// ── Auth error helper ──────────────────────────────────────────
-function show_auth_error(msg) {
-  const err_el = document.getElementById('auth_error');
-  if (err_el) {
-    err_el.textContent   = msg;
-    err_el.style.display = 'block';
+// ── Auth functions ─────────────────────────────────────────────
+export async function emailSignIn(email, password, showError) {
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    window.location.href = 'index.html';
+  } catch (e) {
+    if (showError) showError('Incorrect email or password.');
   }
 }
+
+export async function createAccount(email, password, showError) {
+  if (password.length < 6) {
+    if (showError) showError('Password must be at least 6 characters.');
+    return;
+  }
+  try {
+    const cred = await createUserWithEmailAndPassword(auth, email, password);
+    await setDoc(doc(db, 'users', cred.user.uid), {
+      email:   email,
+      paid:    false,
+      created: new Date().toISOString()
+    });
+    window.location.href = 'index.html';
+  } catch (e) {
+    if (showError) showError(e.message || 'Could not create account.');
+  }
+}
+
+export async function signOutUser() {
+  try {
+    await signOut(auth);
+    window.location.href = 'login.html';
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+export async function googleSignIn() {
+  try {
+    await signInWithRedirect(auth, googleProvider);
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+export async function sendRecoveryEmail(email, showError) {
+  if (!email) {
+    if (showError) showError('Enter a valid email.');
+    return;
+  }
+  try {
+    await sendPasswordResetEmail(auth, email);
+    alert('Password recovery email sent.');
+  } catch (e) {
+    if (showError) showError(e.message);
+  }
+}
+
+// ── Wire up all buttons on page load ──────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+
+  function showError(msg) {
+    const el = document.getElementById('auth_error');
+    if (el) { el.textContent = msg; el.style.display = 'block'; }
+  }
+
+  const googleBtn = document.getElementById('google-sign-in-btn');
+  if (googleBtn) googleBtn.addEventListener('click', () => googleSignIn());
+
+  const emailSignInBtn = document.getElementById('email-sign-in-btn');
+  if (emailSignInBtn) emailSignInBtn.addEventListener('click', () => {
+    const email    = document.getElementById('auth_email').value.trim();
+    const password = document.getElementById('auth_password').value;
+    emailSignIn(email, password, showError);
+  });
+
+  const emailCreateBtn = document.getElementById('email-create-btn');
+  if (emailCreateBtn) emailCreateBtn.addEventListener('click', () => {
+    const email    = document.getElementById('auth_email').value.trim();
+    const password = document.getElementById('auth_password').value;
+    createAccount(email, password, showError);
+  });
+
+  const recoverBtn = document.getElementById('password-recover-btn');
+  if (recoverBtn) recoverBtn.addEventListener('click', () => {
+    const email = document.getElementById('recover_email').value.trim();
+    sendRecoveryEmail(email, showError);
+  });
+
+  const signOutBtn = document.getElementById('sign-out-btn');
+  if (signOutBtn) signOutBtn.addEventListener('click', () => signOutUser());
+
+});
 
 // ── Recipe paywall check ───────────────────────────────────────
 window.check_and_open_recipe = function(recipe, icon, cat_name) {
