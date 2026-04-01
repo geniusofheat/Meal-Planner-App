@@ -1,16 +1,16 @@
 // ================================================================
-//  cookbook_auth.js — Cookbook Paywall & Auth System
+//  cookbook_auth.js — Cookbook Paywall & Auth System (Updated)
 // ================================================================
 
 import { auth, db, onAuthStateChanged } from './firebase_config.js';
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
   signOut,
   GoogleAuthProvider,
   signInWithRedirect,
-  getRedirectResult,
-  sendPasswordResetEmail
+  getRedirectResult
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
@@ -18,11 +18,11 @@ import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/
 const google_provider = new GoogleAuthProvider();
 google_provider.setCustomParameters({ prompt: 'select_account' });
 
-let current_user      = null;
+let current_user = null;
 let cookbook_unlocked = false;
-let preview_used      = false;
+let preview_used = false;
 
-// ── Update nav bar helper ─────────────────────────────────────
+// ── Update nav bar ─────────────────────────────────────────────
 function update_nav(user) {
   const navEmail   = document.getElementById('nav-user-email');
   const signInBtn  = document.getElementById('sign-in-btn');
@@ -46,7 +46,7 @@ function update_nav(user) {
 async function check_paid_status(uid) {
   try {
     const snap = await getDoc(doc(db, 'users', uid));
-    cookbook_unlocked = snap.exists() ? snap.data().paid === true : false;
+    cookbook_unlocked = snap.exists() && snap.data().paid === true;
   } catch (e) {
     cookbook_unlocked = false;
   }
@@ -59,17 +59,18 @@ getRedirectResult(auth).then(async (result) => {
     const snap = await getDoc(doc(db, 'users', user.uid));
     if (!snap.exists()) {
       await setDoc(doc(db, 'users', user.uid), {
-        email:   user.email,
-        paid:    false,
+        email: user.email,
+        paid: false,
         created: new Date().toISOString()
       });
     }
     await check_paid_status(user.uid);
     current_user = user;
     update_nav(user);
-    // Redirect to index.html after Google login
-    if (window.location.pathname.includes('login.html')) {
-      window.location.href = 'index.html';
+
+    // Redirect to index page after successful Google login
+    if (window.location.pathname.endsWith('login.html')) {
+      window.location.replace('index.html');
     }
   }
 }).catch((e) => console.error('Redirect error:', e.code, e.message));
@@ -81,20 +82,13 @@ onAuthStateChanged(auth, async (user) => {
     await check_paid_status(user.uid);
     update_nav(user);
   } else {
-    current_user      = null;
+    current_user = null;
     cookbook_unlocked = false;
     update_nav(null);
   }
 });
 
-// ── Toggle sign in panel ───────────────────────────────────────
-window.toggle_sign_in_panel = function() {
-  const panel = document.getElementById('sign_in_panel');
-  if (!panel) return;
-  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
-};
-
-// ── Wire up buttons after DOM loads ───────────────────────────
+// ── Wire up buttons ────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', function() {
 
   // Google sign in
@@ -136,8 +130,8 @@ document.addEventListener('DOMContentLoaded', function() {
       try {
         const cred = await createUserWithEmailAndPassword(auth, email, password);
         await setDoc(doc(db, 'users', cred.user.uid), {
-          email:   email,
-          paid:    false,
+          email,
+          paid: false,
           created: new Date().toISOString()
         });
       } catch (e) {
@@ -146,26 +140,29 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Forgot password recovery
-  const recoverBtn = document.getElementById('recover-password-btn');
-  if (recoverBtn) {
-    recoverBtn.addEventListener('click', () => {
+  // Password recovery
+  const passwordRecoverBtn = document.getElementById('password-recover-btn');
+  if (passwordRecoverBtn) {
+    passwordRecoverBtn.addEventListener('click', () => {
+      const recoveryContainer = document.getElementById('password-recovery-container');
+      if (recoveryContainer) recoveryContainer.style.display = 'block';
+    });
+  }
+
+  const passwordSendBtn = document.getElementById('password-send-btn');
+  if (passwordSendBtn) {
+    passwordSendBtn.addEventListener('click', async () => {
       const emailField = document.getElementById('auth_email');
-      const sendBtn    = document.getElementById('send-recovery-btn');
-      if (!sendBtn) {
-        const btn = document.createElement('button');
-        btn.id = 'send-recovery-btn';
-        btn.textContent = 'Send Recovery Email';
-        btn.style.cssText = 'margin-top:10px;padding:10px;width:100%;background:rgba(200,169,110,0.2);border:1px solid rgba(200,169,110,0.4);border-radius:6px;color:#c8a96e;cursor:pointer;';
-        emailField.insertAdjacentElement('afterend', btn);
-        btn.addEventListener('click', async () => {
-          try {
-            await sendPasswordResetEmail(auth, emailField.value.trim());
-            alert('Recovery email sent. Check your inbox.');
-          } catch (e) {
-            show_auth_error(e.message || 'Could not send recovery email.');
-          }
-        });
+      const email = emailField ? emailField.value.trim() : '';
+      if (!email) {
+        show_auth_error('Please enter your email to send recovery link.');
+        return;
+      }
+      try {
+        await sendPasswordResetEmail(auth, email);
+        alert('Recovery email sent. Check your inbox.');
+      } catch (e) {
+        show_auth_error(e.message);
       }
     });
   }
