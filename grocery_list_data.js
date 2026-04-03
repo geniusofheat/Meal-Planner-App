@@ -18,6 +18,7 @@ const MENU = {
   	"Peas":  ["1 Lb"],
     "Carrots": ["1 Lb"],
   	"Onions":  ["1 Lb"],
+  	"Mushrooms":  ["1 Lb"],
   	"Cabbage":  ["1 Lb"],
   	"Potatoes":  ["1 Lb"],
   	"Broccoli":  ["1 Lb"],
